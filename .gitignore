@@ -8,4 +8,4 @@
 /build
 /captures
 .externalNativeBuild
-app\src\main\java\com\example\victor\dailyweather/API_Key.java
+app/src/main/java/com/example/victor/dailyweather/API_Key.java
