@@ -1,0 +1,41 @@
+city search = response[0]["Key"]
+-----------------------------------------------------
+12 hour search
+[{"DateTime":"2019-03-02T17:00:00-06:00","EpochDateTime":1551567600,"WeatherIcon":18,"IconPhrase":"Rain","IsDaylight":true,"Temperature":{"Value":52.0,"Unit":"F","UnitType":18},"PrecipitationProbability":69,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&hbhhour=17&lang=en-us"},{"DateTime":"2019-03-02T18:00:00-06:00","EpochDateTime":1551571200,"WeatherIcon":12,"IconPhrase":"Showers","IsDaylight":true,"Temperature":{"Value":54.0,"Unit":"F","UnitType":18},"PrecipitationProbability":67,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&hbhhour=18&lang=en-us"},{"DateTime":"2019-03-02T19:00:00-06:00","EpochDateTime":1551574800,"WeatherIcon":7,"IconPhrase":"Cloudy","IsDaylight":false,"Temperature":{"Value":51.0,"Unit":"F","UnitType":18},"PrecipitationProbability":40,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&hbhhour=19&lang=en-us"},{"DateTime":"2019-03-02T20:00:00-06:00","EpochDateTime":1551578400,"WeatherIcon":7,"IconPhrase":"Cloudy","IsDaylight":false,"Temperature":{"Value":51.0,"Unit":"F","UnitType":18},"PrecipitationProbability":34,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&hbhhour=20&lang=en-us"},{"DateTime":"2019-03-02T21:00:00-06:00","EpochDateTime":1551582000,"WeatherIcon":7,"IconPhrase":"Cloudy","IsDaylight":false,"Temperature":{"Value":51.0,"Unit":"F","UnitType":18},"PrecipitationProbability":38,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&hbhhour=21&lang=en-us"},{"DateTime":"2019-03-02T22:00:00-06:00","EpochDateTime":1551585600,"WeatherIcon":7,"IconPhrase":"Cloudy","IsDaylight":false,"Temperature":{"Value":50.0,"Unit":"F","UnitType":18},"PrecipitationProbability":49,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&hbhhour=22&lang=en-us"},{"DateTime":"2019-03-02T23:00:00-06:00","EpochDateTime":1551589200,"WeatherIcon":18,"IconPhrase":"Rain","IsDaylight":false,"Temperature":{"Value":50.0,"Unit":"F","UnitType":18},"PrecipitationProbability":55,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=1&hbhhour=23&lang=en-us"},{"DateTime":"2019-03-03T00:00:00-06:00","EpochDateTime":1551592800,"WeatherIcon":18,"IconPhrase":"Rain","IsDaylight":false,"Temperature":{"Value":50.0,"Unit":"F","UnitType":18},"PrecipitationProbability":55,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=2&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=2&hbhhour=0&lang=en-us"},{"DateTime":"2019-03-03T01:00:00-06:00","EpochDateTime":1551596400,"WeatherIcon":7,"IconPhrase":"Cloudy","IsDaylight":false,"Temperature":{"Value":49.0,"Unit":"F","UnitType":18},"PrecipitationProbability":40,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=2&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=2&hbhhour=1&lang=en-us"},{"DateTime":"2019-03-03T02:00:00-06:00","EpochDateTime":1551600000,"WeatherIcon":7,"IconPhrase":"Cloudy","IsDaylight":false,"Temperature":{"Value":48.0,"Unit":"F","UnitType":18},"PrecipitationProbability":34,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=2&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=2&hbhhour=2&lang=en-us"},{"DateTime":"2019-03-03T03:00:00-06:00","EpochDateTime":1551603600,"WeatherIcon":7,"IconPhrase":"Cloudy","IsDaylight":false,"Temperature":{"Value":48.0,"Unit":"F","UnitType":18},"PrecipitationProbability":37,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=2&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=2&hbhhour=3&lang=en-us"},{"DateTime":"2019-03-03T04:00:00-06:00","EpochDateTime":1551607200,"WeatherIcon":7,"IconPhrase":"Cloudy","IsDaylight":false,"Temperature":{"Value":48.0,"Unit":"F","UnitType":18},"PrecipitationProbability":47,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=2&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/hourly-weather-forecast/351193?day=2&hbhhour=4&lang=en-us"}]
+
+
+[0-11] for the first - twelfth hour
+parse the date: [#]['Datetime']
+weather text/icon: [#]['IconPhrase'] and [#]['WeatherIcon']
+temperature: [#]['Temperature']['Value'] (and ['Unit'])
+chance of precipation: [#]['PrecipitationProbability']
+------------------------------------------------------
+One Day Search
+{"Headline":{"EffectiveDate":"2019-03-02T07:00:00-06:00","EffectiveEpochDate":1551531600,"Severity":5,"Text":"Expect rainy weather this morning through late tonight","Category":"rain","EndDate":"2019-03-03T07:00:00-06:00","EndEpochDate":1551618000,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/extended-weather-forecast/351193?lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/daily-weather-forecast/351193?lang=en-us"},"DailyForecasts":[{"Date":"2019-03-02T07:00:00-06:00","EpochDate":1551531600,"Temperature":{"Minimum":{"Value":45.0,"Unit":"F","UnitType":18},"Maximum":{"Value":54.0,"Unit":"F","UnitType":18}},"Day":{"Icon":18,"IconPhrase":"Rain"},"Night":{"Icon":12,"IconPhrase":"Showers"},"Sources":["AccuWeather"],"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/daily-weather-forecast/351193?day=1&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/daily-weather-forecast/351193?day=1&lang=en-us"}]}
+
+
+one day search:
+	headline text: ['Headline']['Text']
+	link: ['Headline']['Link'] (or ['Headline']['MobileLink'] for the extended forecast app)
+
+	temperatures:
+		['DailyForecasts']['Temperature']
+		min: ['DailyForecasts']['Temperature']['Minumum']['Value'] (for number)
+			['DailyForecasts']['Temperature']['Minumum']['Unit'] (for F or C)
+		max: ['DailyForecasts']['Temperature']['Maximum']['Value'] (for number)
+			['DailyForecasts']['Temperature']['Maximum']['Unit'] (for F or C)
+
+	day/icon/phrase:
+		['DailyForecasts']['Day']
+	night/icon/phrase:
+		['DailyForecasts']['Night']
+
+---------------------------------------------------------
+Current Conditions
+[{"LocalObservationDateTime":"2019-03-02T17:04:00-06:00","EpochTime":1551567840,"WeatherText":"Cloudy","WeatherIcon":7,"HasPrecipitation":false,"PrecipitationType":null,"IsDayTime":true,"Temperature":{"Metric":{"Value":11.7,"Unit":"C","UnitType":17},"Imperial":{"Value":53.0,"Unit":"F","UnitType":18}},"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/current-weather/351193?lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/current-weather/351193?lang=en-us"}]
+
+
+text: [0]['WeatherText']
+temperature: [0]['Temperature']['Imperial']['Value'] (['Unit'] for F or C)
+
+------------------------------------------------------------
