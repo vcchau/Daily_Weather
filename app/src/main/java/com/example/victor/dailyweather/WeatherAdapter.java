@@ -33,13 +33,21 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
 
         // Grab the textviews by their IDs
         TextView dateTextView = convertView.findViewById(R.id.dateTextView);
-        TextView minTextView = convertView.findViewById(R.id.lowTemperature);
-        TextView maxTextView = convertView.findViewById(R.id.highTemperature);
+        TextView currentTemp = convertView.findViewById(R.id.currentTemp);
+        TextView realFeel = convertView.findViewById(R.id.realFeel);
+        TextView windSpeeds = convertView.findViewById(R.id.windSpeed);
+        TextView precipChance = convertView.findViewById(R.id.precipChance);
+        TextView humidity = convertView.findViewById(R.id.humidity);
+        TextView link = convertView.findViewById(R.id.link);
 
         // Display the information in the list
         dateTextView.setText(weather.getDate());
-        minTextView.setText(weather.getMinTemp());
-        maxTextView.setText(weather.getMaxTemp());
+        currentTemp.setText(weather.getCurrentTemp());
+        realFeel.setText(weather.getCurrentRealFeelTemp());
+        windSpeeds.setText(weather.getWindSpeed() + " " + weather.getWindDirection());
+        precipChance.setText(weather.getChanceOfPrecipitation() + "%");
+        humidity.setText(weather.getRelativeHumidity() + "%");
+        link.setText(weather.getLink());
 
         return convertView;
     }

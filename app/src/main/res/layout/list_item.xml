@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent" android:layout_height="match_parent"
-    android:orientation="vertical">
+    android:orientation="vertical"
+    android:padding="10dp">
 
     <TextView
         android:id="@+id/dateTextView"
@@ -30,13 +31,13 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="High"
+            android:hint="Current Temperature:"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/colorPrimary"/>
 
         <TextView
-            android:id="@+id/highTemperature"
+            android:id="@+id/currentTemp"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -56,13 +57,120 @@
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:hint="Low"
+            android:hint="Real Feel:"
             android:textStyle="bold"
             android:textSize="20sp"
             android:textColor="@color/colorPrimary"/>
 
         <TextView
-            android:id="@+id/lowTemperature"
+            android:id="@+id/realFeel"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="69"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Wind speeds: "
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/windSpeed"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="69"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Chance of precipitation: "
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/precipChance"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="69"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Humidity: "
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/humidity"
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="69"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <TextView
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:hint="Link: "
+            android:textStyle="bold"
+            android:textSize="20sp"
+            android:textColor="@color/colorPrimary"/>
+
+        <TextView
+            android:id="@+id/link"
             android:layout_weight="1"
             android:layout_width="0dp"
             android:layout_height="wrap_content"

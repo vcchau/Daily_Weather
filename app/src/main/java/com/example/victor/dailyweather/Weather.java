@@ -1,15 +1,64 @@
 package com.example.victor.dailyweather;
 
+/* Class for storing information about the weather. Contains useful info like the min/max temps,
+   chance of precipitation, and other bits of information.
+ */
 public class Weather {
-    String date;
-    String MinTemp;
-    String MaxTemp;
-    String MinTempRealFeel;
-    String MaxTempRealFeel;
-    String WindSpeed;
-    String WindDirection;
-    String ChanceOfPrecipitation;
-    String link;
+    private String date;
+    private String MinTemp;
+    private String MaxTemp;
+    private String MinTempRealFeel;
+    private String MaxTempRealFeel;
+    private String WindSpeed;
+    private String WindDirection;
+    private String ChanceOfPrecipitation;
+    private String link;
+    private String currentTemp;
+    private String currentRealFeelTemp;
+    private String UVIndex;
+    private String cloudCover;
+
+    public String getRelativeHumidity() {
+        return relativeHumidity;
+    }
+
+    public void setRelativeHumidity(String relativeHumidity) {
+        this.relativeHumidity = relativeHumidity;
+    }
+
+    private String relativeHumidity;
+
+    public String getCurrentTemp() {
+        return currentTemp;
+    }
+
+    public void setCurrentTemp(String currentTemp) {
+        this.currentTemp = currentTemp;
+    }
+
+    public String getCurrentRealFeelTemp() {
+        return currentRealFeelTemp;
+    }
+
+    public void setCurrentRealFeelTemp(String currentRealFeelTemp) {
+        this.currentRealFeelTemp = currentRealFeelTemp;
+    }
+
+    public String getUVIndex() {
+        return UVIndex;
+    }
+
+    public void setUVIndex(String UVIndex) {
+        this.UVIndex = UVIndex;
+    }
+
+    public String getCloudCover() {
+        return cloudCover;
+    }
+
+    public void setCloudCover(String cloudCover) {
+        this.cloudCover = cloudCover;
+    }
 
     public String getMinTempRealFeel() {
         return MinTempRealFeel;

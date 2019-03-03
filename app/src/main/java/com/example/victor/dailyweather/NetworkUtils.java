@@ -80,7 +80,7 @@ public class NetworkUtils {
 
     // Get info for twenty hours
     public static URL buildUrlForWeatherSingleDay() {
-        String requestURL = FIVE_DAY_BASE_REQUEST_URL + locationKeys.get("austin");
+        String requestURL = TWELVE_HOUR_BASE_REQUEST_URL + locationKeys.get("austin");
 
         // Use a uri to create our request url
         Uri buildUri = Uri.parse(requestURL).buildUpon()
