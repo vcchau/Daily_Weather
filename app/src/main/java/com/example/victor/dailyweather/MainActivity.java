@@ -4,6 +4,7 @@ import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ListView;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -17,15 +18,18 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private ArrayList<Weather> weatherArrayList = new ArrayList<>();
+    private ListView listView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        URL weatherURL = NetworkUtils.buildUrlForWeatherTwelveFourHour();
-        new FetchWeatherDetails().execute(weatherURL);
-        Log.i(TAG, "onCreate weatherURL: " + weatherURL);
+        listView = findViewById(R.id.list_view);
+
+        URL singleDayWeatherURL = NetworkUtils.buildUrlForWeatherSingleDay();
+        new FetchWeatherDetails().execute(singleDayWeatherURL);
+        Log.i(TAG, "onCreate singleDayWeatherURL: " + singleDayWeatherURL);
     }
 
     // Class to fetch the details from our URL in the background
@@ -38,11 +42,11 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected String doInBackground(URL... urls) {
-            URL weatherURL = urls[0];
+            URL singleDayWeatherURL = urls[0];
             String weatherSearchResults = null;
 
             try {
-                weatherSearchResults = NetworkUtils.getResponse(weatherURL);
+                weatherSearchResults = NetworkUtils.getResponse(singleDayWeatherURL);
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -55,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(String weatherSearchResults) {
             if (weatherSearchResults != null && !weatherSearchResults.equals("")) {
-                weatherArrayList = parseJSON(weatherSearchResults);
+                weatherArrayList = parseSingleDayJSON(weatherSearchResults);
             }
             super.onPostExecute(weatherSearchResults);
         }
@@ -63,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
 
     // Currently set to handle request from single day forecast, need to update for 12 hour forecasts
     // Which is comprised of 12 separate json objects
-    private ArrayList<Weather> parseJSON(String weatherSearchResults) {
+    private ArrayList<Weather> parseSingleDayJSON(String weatherSearchResults) {
         if (weatherArrayList != null) {
             weatherArrayList.clear();
         }
@@ -107,14 +111,14 @@ public class MainActivity extends AppCompatActivity {
                     // Grab data for precip chance, wind speeds and wind direction
                     JSONObject dayObj = resultsObj.getJSONObject("Day");
                     String chanceOfPrecipitation = dayObj.getString("PrecipitationProbability");
-                    weather.setChanceOfPrecipitation(chanceOfPrecipitation);
-
                     JSONObject windObj = dayObj.getJSONObject("Wind");
                     String windSpeeds = windObj.getJSONObject("Speed").getString("Value");
                     String windDirection = windObj.getJSONObject("Direction").getString("English");
+                    weather.setChanceOfPrecipitation(chanceOfPrecipitation);
                     weather.setWindSpeed(windSpeeds);
                     weather.setWindDirection(windDirection);
 
+                    // Logging info for debugging purposes
                     Log.i(TAG, "Min temp: " + weather.getMinTemp() + " Max temp: " + weather.getMaxTemp());
                     Log.i(TAG, "Min RealFeel: " + weather.getMinTempRealFeel() + " Max RealFeel: " + weather.getMaxTempRealFeel());
                     Log.i(TAG, "Precip chance: " + weather.getChanceOfPrecipitation() + "%");
@@ -122,6 +126,11 @@ public class MainActivity extends AppCompatActivity {
 
                     weatherArrayList.add(weather);
 //                    Log.i(TAG, "Date from " + i + date);
+                }
+
+                if (weatherArrayList != null) {
+                    WeatherAdapter weatherAdapter = new WeatherAdapter(this, weatherArrayList);
+                    listView.setAdapter(weatherAdapter);
                 }
 
                 return weatherArrayList;
