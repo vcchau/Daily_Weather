@@ -14,11 +14,20 @@ import java.util.Scanner;
 
 public class NetworkUtils {
 
-    private final static String API_KEY = API_Key.getApi_key();
 
     private final static String TAG = "NetworkUtils";
 
+    // API key param
     private final static String PARAM_API_KEY = "apikey";
+    private final static String API_KEY = API_Key.getApi_key();
+
+    // Whether to show more details in JSON response
+    private final static String PARAM_EXTRA_DETAILS = "details";
+    private final static String EXTRA_PARAMS = "true";
+
+    // Whether to display values in metric or imperial
+    private final static String METRIC_PARAMS = "metric";
+    private final static String METRIC_VALUES = "false";
 
     /* ALL COMMENTED OUT STRINGS ARE CURRENTLY UNAUTHORIZED IN THE FREE API PACKAGE
      * All string are missing location keys, we grab those by entering our city
@@ -71,10 +80,14 @@ public class NetworkUtils {
 
     // Get info for twenty hours
     public static URL buildUrlForWeatherTwelveFourHour() {
-        String requestURL = ONE_DAY_BASE_REQUEST_URL + locationKeys.get("austin");
+        String requestURL = FIVE_DAY_BASE_REQUEST_URL + locationKeys.get("austin");
 
         // Use a uri to create our request url
-        Uri buildUri = Uri.parse(requestURL).buildUpon().appendQueryParameter(PARAM_API_KEY, API_KEY).build();
+        Uri buildUri = Uri.parse(requestURL).buildUpon()
+                .appendQueryParameter(PARAM_API_KEY, API_KEY)
+                .appendQueryParameter(PARAM_EXTRA_DETAILS, EXTRA_PARAMS)
+                .appendQueryParameter(METRIC_PARAMS, METRIC_VALUES)
+                .build();
 
         // Attempt to create the url
         URL url = null;

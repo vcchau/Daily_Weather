@@ -8,10 +8,18 @@ city search = response[0]["Key"]
 parse the date: [#]['Datetime']
 weather text/icon: [#]['IconPhrase'] and [#]['WeatherIcon']
 temperature: [#]['Temperature']['Value'] (and ['Unit'])
+realfeel: [#]['RealFeelTemperature']['Value'] (and ['Unit'])
+wind: [#]['Wind']['Speed']['Value'] (and ['Unit'])
+	direction: [#]['Wind']['Direction']['English']
 chance of precipation: [#]['PrecipitationProbability']
+
 ------------------------------------------------------
 One Day Search
 {"Headline":{"EffectiveDate":"2019-03-02T07:00:00-06:00","EffectiveEpochDate":1551531600,"Severity":5,"Text":"Expect rainy weather this morning through late tonight","Category":"rain","EndDate":"2019-03-03T07:00:00-06:00","EndEpochDate":1551618000,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/extended-weather-forecast/351193?lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/daily-weather-forecast/351193?lang=en-us"},"DailyForecasts":[{"Date":"2019-03-02T07:00:00-06:00","EpochDate":1551531600,"Temperature":{"Minimum":{"Value":45.0,"Unit":"F","UnitType":18},"Maximum":{"Value":54.0,"Unit":"F","UnitType":18}},"Day":{"Icon":18,"IconPhrase":"Rain"},"Night":{"Icon":12,"IconPhrase":"Showers"},"Sources":["AccuWeather"],"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/daily-weather-forecast/351193?day=1&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/daily-weather-forecast/351193?day=1&lang=en-us"}]}
+
+with true:
+{"Headline":{"EffectiveDate":"2019-03-02T07:00:00-06:00","EffectiveEpochDate":1551531600,"Severity":5,"Text":"Expect rainy weather this morning through late tonight","Category":"rain","EndDate":"2019-03-03T07:00:00-06:00","EndEpochDate":1551618000,"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/extended-weather-forecast/351193?lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/daily-weather-forecast/351193?lang=en-us"},"DailyForecasts":[{"Date":"2019-03-02T07:00:00-06:00","EpochDate":1551531600,"Sun":{"Rise":"2019-03-02T06:56:00-06:00","EpochRise":1551531360,"Set":"2019-03-02T18:31:00-06:00","EpochSet":1551573060},"Moon":{"Rise":"2019-03-02T04:34:00-06:00","EpochRise":1551522840,"Set":"2019-03-02T15:12:00-06:00","EpochSet":1551561120,"Phase":"WaningCrescent","Age":26},"Temperature":{"Minimum":{"Value":45.0,"Unit":"F","UnitType":18},"Maximum":{"Value":54.0,"Unit":"F","UnitType":18}},"RealFeelTemperature":{"Minimum":{"Value":45.0,"Unit":"F","UnitType":18},"Maximum":{"Value":52.0,"Unit":"F","UnitType":18}},"RealFeelTemperatureShade":{"Minimum":{"Value":45.0,"Unit":"F","UnitType":18},"Maximum":{"Value":53.0,"Unit":"F","UnitType":18}},"HoursOfSun":0.6,"DegreeDaySummary":{"Heating":{"Value":16.0,"Unit":"F","UnitType":18},"Cooling":{"Value":0.0,"Unit":"F","UnitType":18}},"AirAndPollen":[{"Name":"AirQuality","Value":69,"Category":"Moderate","CategoryValue":2,"Type":"Ozone"},{"Name":"Grass","Value":0,"Category":"Low","CategoryValue":1},{"Name":"Mold","Value":0,"Category":"Low","CategoryValue":1},{"Name":"Ragweed","Value":0,"Category":"Low","CategoryValue":1},{"Name":"Tree","Value":18,"Category":"Moderate","CategoryValue":2},{"Name":"UVIndex","Value":1,"Category":"Low","CategoryValue":1}],"Day":{"Icon":18,"IconPhrase":"Rain","ShortPhrase":"Cloudy","LongPhrase":"Cloudy","PrecipitationProbability":72,"ThunderstormProbability":3,"RainProbability":72,"SnowProbability":0,"IceProbability":0,"Wind":{"Speed":{"Value":5.8,"Unit":"mi/h","UnitType":9},"Direction":{"Degrees":47,"Localized":"NE","English":"NE"}},"WindGust":{"Speed":{"Value":8.1,"Unit":"mi/h","UnitType":9},"Direction":{"Degrees":40,"Localized":"NE","English":"NE"}},"TotalLiquid":{"Value":0.04,"Unit":"in","UnitType":1},"Rain":{"Value":0.04,"Unit":"in","UnitType":1},"Snow":{"Value":0.0,"Unit":"in","UnitType":1},"Ice":{"Value":0.0,"Unit":"in","UnitType":1},"HoursOfPrecipitation":3.0,"HoursOfRain":3.0,"HoursOfSnow":0.0,"HoursOfIce":0.0,"CloudCover":100},"Night":{"Icon":12,"IconPhrase":"Showers","ShortPhrase":"Overcast, a little rain","LongPhrase":"Overcast, a little rain","PrecipitationProbability":56,"ThunderstormProbability":24,"RainProbability":56,"SnowProbability":0,"IceProbability":0,"Wind":{"Speed":{"Value":3.5,"Unit":"mi/h","UnitType":9},"Direction":{"Degrees":15,"Localized":"NNE","English":"NNE"}},"WindGust":{"Speed":{"Value":6.9,"Unit":"mi/h","UnitType":9},"Direction":{"Degrees":4,"Localized":"N","English":"N"}},"TotalLiquid":{"Value":0.06,"Unit":"in","UnitType":1},"Rain":{"Value":0.06,"Unit":"in","UnitType":1},"Snow":{"Value":0.0,"Unit":"in","UnitType":1},"Ice":{"Value":0.0,"Unit":"in","UnitType":1},"HoursOfPrecipitation":1.5,"HoursOfRain":1.5,"HoursOfSnow":0.0,"HoursOfIce":0.0,"CloudCover":99},"Sources":["AccuWeather"],"MobileLink":"http://m.accuweather.com/en/us/austin-tx/78701/daily-weather-forecast/351193?day=1&lang=en-us","Link":"http://www.accuweather.com/en/us/austin-tx/78701/daily-weather-forecast/351193?day=1&lang=en-us"}]}
+
 
 
 one day search:
@@ -25,10 +33,21 @@ one day search:
 		max: ['DailyForecasts']['Temperature']['Maximum']['Value'] (for number)
 			['DailyForecasts']['Temperature']['Maximum']['Unit'] (for F or C)
 
+	realfeel:
+		['DailyForecasts']['RealFeelTemperature']
+		min: ['DailyForecasts']['RealFeelTemperature']['Minumum']['Value'] (for number)
+			['DailyForecasts']['RealFeelTemperature']['Minumum']['Unit'] (for F or C)
+		max: ['DailyForecasts']['RealFeelTemperature']['Maximum']['Value'] (for number)
+			['DailyForecasts']['RealFeelTemperature']['Maximum']['Unit'] (for F or C)
+
 	day/icon/phrase:
-		['DailyForecasts']['Day']
+		['DailyForecasts']['Day']['Icon'] (or ['Phrase'])
 	night/icon/phrase:
 		['DailyForecasts']['Night']
+
+	wind:
+		speed: ['DailyForecasts']['Day']['Wind']['Speed']['Value'] (and ['Unit'])
+		direction: ['DailyForecasts']['Day']['Wind']['Direction']['English'] 
 
 ---------------------------------------------------------
 Current Conditions
