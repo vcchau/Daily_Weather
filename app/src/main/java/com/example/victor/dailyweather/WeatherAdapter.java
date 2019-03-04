@@ -31,6 +31,7 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         TextView currentTemp = convertView.findViewById(R.id.currentTemp);
         TextView realFeel = convertView.findViewById(R.id.realFeel);
         TextView windSpeeds = convertView.findViewById(R.id.windSpeed);
+        TextView windDirection = convertView.findViewById(R.id.windDirection);
         TextView precipChance = convertView.findViewById(R.id.precipChance);
         TextView humidity = convertView.findViewById(R.id.humidity);
         TextView UVIndex = convertView.findViewById(R.id.UVIndex);
@@ -42,7 +43,8 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         dateTextView.setText(weather.getTimeStamp());
         currentTemp.setText(weather.getCurrentTemp() + "°F");
         realFeel.setText(weather.getCurrentRealFeelTemp() + "°F");
-        windSpeeds.setText(weather.getWindSpeed() + " " + weather.getWindDirection());
+        windSpeeds.setText(weather.getWindSpeed() + "mph");
+        windDirection.setText(weather.getWindDirection());
         precipChance.setText(weather.getChanceOfPrecipitation() + "%");
         humidity.setText(weather.getRelativeHumidity() + "%");
         UVIndex.setText(weather.getUVIndex());

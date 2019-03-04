@@ -78,7 +78,7 @@ public class NetworkUtils {
         put("houston", "351197");
     }};
 
-    // Get info for twenty hours
+    // Get info for twelve hours
     public static URL buildUrlForWeatherTwelveHours() {
         String requestURL = TWELVE_HOUR_BASE_REQUEST_URL + locationKeys.get("austin");
 
@@ -98,8 +98,51 @@ public class NetworkUtils {
             e.printStackTrace();
         }
 
-        // Log the url we built for debugging purposes
-//        Log.i(TAG, "Twelve four hour request url created: " + url);
+        return url;
+    }
+
+    // Get current weather info
+    public static URL buildUrlForCurrentWeather() {
+        String requestURL = CURRENT_CONDITIONS_BASE_URL + locationKeys.get("austin");
+
+        // Use a uri to create our request url
+        Uri buildUri = Uri.parse(requestURL).buildUpon()
+                .appendQueryParameter(PARAM_API_KEY, API_KEY)
+                .appendQueryParameter(PARAM_EXTRA_DETAILS, EXTRA_PARAMS)
+                .appendQueryParameter(METRIC_PARAMS, METRIC_VALUES)
+                .build();
+
+        // Attempt to create the url
+        URL url = null;
+        try {
+            url = new URL(buildUri.toString());
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    // Get info for the day
+    public static URL buildUrlForWeatherOneDay() {
+        String requestURL = ONE_DAY_BASE_REQUEST_URL + locationKeys.get("austin");
+
+        // Use a uri to create our request url
+        Uri buildUri = Uri.parse(requestURL).buildUpon()
+                .appendQueryParameter(PARAM_API_KEY, API_KEY)
+                .appendQueryParameter(PARAM_EXTRA_DETAILS, EXTRA_PARAMS)
+                .appendQueryParameter(METRIC_PARAMS, METRIC_VALUES)
+                .build();
+
+        // Attempt to create the url
+        URL url = null;
+        try {
+            url = new URL(buildUri.toString());
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
 
         return url;
     }
