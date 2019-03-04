@@ -18,6 +18,16 @@ public class Weather {
     private String UVIndex;
     private String cloudCover;
 
+    public String getSummary() {
+        return summary;
+    }
+
+    public void setSummary(String summary) {
+        this.summary = summary;
+    }
+
+    private String summary;
+
     public String getRelativeHumidity() {
         return relativeHumidity;
     }
@@ -130,5 +140,34 @@ public class Weather {
 
     public void setLink(String link) {
         this.link = link;
+    }
+
+    public String getTimeStamp() {
+        String date = this.date.substring(11, 16);
+        Boolean PM = false;
+        int hour = Integer.parseInt(date.substring(0, 2));
+        if (hour > 12) {
+            hour %= 12;
+            PM = true;
+        }
+        // Noon (12:00 PM)
+        else if (hour == 12) {
+            PM = true;
+        }
+        // Midnight (12:00 AM)
+        else if (hour == 0) {
+            hour = 12;
+        }
+
+        String time = Integer.toString(hour) + date.substring(2);
+
+        if (PM) {
+            time += " PM";
+        }
+        else {
+            time += " AM";
+        }
+
+        return time;
     }
 }

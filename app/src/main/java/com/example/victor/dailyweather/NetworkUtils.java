@@ -79,7 +79,7 @@ public class NetworkUtils {
     }};
 
     // Get info for twenty hours
-    public static URL buildUrlForWeatherSingleDay() {
+    public static URL buildUrlForWeatherTwelveHours() {
         String requestURL = TWELVE_HOUR_BASE_REQUEST_URL + locationKeys.get("austin");
 
         // Use a uri to create our request url
@@ -99,7 +99,7 @@ public class NetworkUtils {
         }
 
         // Log the url we built for debugging purposes
-        Log.i(TAG, "Twelve four hour request url created: " + url);
+//        Log.i(TAG, "Twelve four hour request url created: " + url);
 
         return url;
     }

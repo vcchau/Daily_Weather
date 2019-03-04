@@ -27,10 +27,11 @@ public class MainActivity extends AppCompatActivity {
 
         listView = findViewById(R.id.list_view);
 
-        URL singleDayWeatherURL = NetworkUtils.buildUrlForWeatherSingleDay();
+        URL singleDayWeatherURL = NetworkUtils.buildUrlForWeatherTwelveHours();
         new FetchWeatherDetails().execute(singleDayWeatherURL);
-        Log.i(TAG, "onCreate singleDayWeatherURL: " + singleDayWeatherURL);
+//        Log.i(TAG, "onCreate singleDayWeatherURL: " + singleDayWeatherURL);
     }
+
 
     // Class to fetch the details from our URL in the background
     private class FetchWeatherDetails extends AsyncTask<URL, Void, String> {
@@ -74,7 +75,6 @@ public class MainActivity extends AppCompatActivity {
 
         if (weatherSearchResults != null) {
             try {
-                Log.i(TAG, "Type of weatherSearchResults is " + weatherSearchResults.getClass().getSimpleName());
                 Log.i(TAG, "weatherSearchResults is " + weatherSearchResults);
 
 //                JSONObject rootObject = new JSONObject(weatherSearchResults);
@@ -119,6 +119,16 @@ public class MainActivity extends AppCompatActivity {
                     // Set the link
                     String link = hourObject.getString("Link");
                     hourlyWeather.setLink(link);
+
+                    // Set the summary
+                    String summary = hourObject.getString("IconPhrase");
+                    hourlyWeather.setSummary(summary);
+
+                    //Set the UV Index
+                    String UVIndex = hourObject.getString("UVIndex");
+                    hourlyWeather.setUVIndex(UVIndex);
+
+//                    Log.i(TAG, "UV index: " + hourlyWeather.getUVIndex());
 
                     // Logging info for debugging purposes
 //                    Log.i(TAG, "Min temp: " + hourlyWeather.getMinTemp() + " Max temp: " + hourlyWeather.getMaxTemp());
