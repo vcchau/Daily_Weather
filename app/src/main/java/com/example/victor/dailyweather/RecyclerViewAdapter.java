@@ -23,6 +23,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // These arraylists store the info as the view recyles them
     // Change to arraylist of weather?
     private ArrayList<Weather> hours;
+
 //    private ArrayList<String> dates = new ArrayList<>();
 //    private ArrayList<String> currentTemps = new ArrayList<>();
 //    private ArrayList<String> realFeels = new ArrayList<>();

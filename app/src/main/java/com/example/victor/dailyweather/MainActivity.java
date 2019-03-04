@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // Initialize all of the textViews for the main UI
         recyclerView = findViewById(R.id.recycler_view);
         date = findViewById(R.id.date);
         currentTemp = findViewById(R.id.currentTemp);
@@ -83,10 +84,12 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<String> params = new ArrayList<>();
 
             try {
+                // Grab the responses from the API request URLs
                 twelveHourWeatherResults = NetworkUtils.getResponse(twelveHourWeatherURL);
                 singleDayWeatherResults = NetworkUtils.getResponse(singleDayWeatherURL);
                 currentWeatherResults = NetworkUtils.getResponse(currentWeatherURL);
 
+                // Add the JSON strings to the params list
                 params.add(twelveHourWeatherResults);
                 params.add(singleDayWeatherResults);
                 params.add(currentWeatherResults);
@@ -94,17 +97,17 @@ public class MainActivity extends AppCompatActivity {
             catch (IOException e) {
                 e.printStackTrace();
             }
+//            Log.i(TAG, "in background results are: " + twelveHourWeatherResults)
 
-            Log.i(TAG, "in background results are: " + twelveHourWeatherResults);
-            updateUI(singleDayWeatherResults, currentWeatherResults);
+//            updateUI(singleDayWeatherResults, currentWeatherResults); *** moved to onPostExecute ***
             return params;
         }
 
         @Override
         protected void onPostExecute(ArrayList<String> weatherJSONs) {
             String twelveHourJSON = weatherJSONs.get(0);
-            String singleDayJSON = weatherJSONs.get(1);
-            String currentWeatherJSON = weatherJSONs.get(2);
+            final String singleDayJSON = weatherJSONs.get(1);
+            final String currentWeatherJSON = weatherJSONs.get(2);
 
             // Update the RecyclerView list
             if (twelveHourJSON != null && !twelveHourJSON.equals("")) {
@@ -113,7 +116,17 @@ public class MainActivity extends AppCompatActivity {
 
             // Update the UI at the top
             if (singleDayJSON != null && !singleDayJSON.equals("") && currentWeatherJSON != null && !currentWeatherJSON.equals("")) {
-                updateUI(singleDayJSON, currentWeatherJSON);
+                // Updating the UI needs to be ran in the UI thread
+                runOnUiThread(new Runnable() {
+
+                    @Override
+                    public void run() {
+
+                        // Stuff that updates the UI
+                        updateUI(singleDayJSON, currentWeatherJSON);
+                    }
+                });
+
             }
 
             super.onPostExecute(weatherJSONs);
@@ -142,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
             String dailyMax = temperature.getJSONObject("Maximum").getString("Value");
             minMaxTemp.setText(dailyMax + "°F/ " + dailyMin + "°F");
 
-            /// Update the verbose summary for the day
+            // Update the verbose summary for the day
             JSONObject dayObject = dailyForecasts.getJSONObject("Day");
             String dayPrecipChance = dayObject.getString("PrecipitationProbability");
             String daySummaryString = dayObject.getString("LongPhrase");
@@ -195,7 +208,8 @@ public class MainActivity extends AppCompatActivity {
                     JSONObject hourObject = jsonArray.getJSONObject(j);
 
                     Weather hourlyWeather = new Weather();
-                    
+
+                    // Set the date
                     String date = hourObject.getString("DateTime");
                     hourlyWeather.setDate(date);
 
@@ -244,8 +258,7 @@ public class MainActivity extends AppCompatActivity {
 //                    Log.i(TAG, "Precip chance: " + hourlyWeather.getChanceOfPrecipitation() + "%");
 //                    Log.i(TAG, "Wind speeds: " + hourlyWeather.getWindSpeed() + "mph coming from the " + hourlyWeather.getWindDirection());
 
-                    weatherArrayList.add(hourlyWeather);
-                    
+
 //                    Log.i(TAG, "Date from " + i + date);
                 // Retrieve the JSON Array called 'DailyForecasts'
 //                JSONArray results = rootObject.getJSONArray("DailyForecasts");
@@ -255,6 +268,7 @@ public class MainActivity extends AppCompatActivity {
                 // Can leave out now since we're only using 1-day forecast
                 // may eventually add in a 5-day forecast option
 
+                    weatherArrayList.add(hourlyWeather);
                 }
 
                 if (weatherArrayList != null) {
