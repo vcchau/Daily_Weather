@@ -40,7 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView precipChance;
     private TextView currentStats;
     private TextView summary;
-    FetchForecastDetails fetchForecastDetails;
 
     final URL twelveHourWeatherURL = NetworkUtils.buildUrlForWeatherTwelveHours();
     final URL singleDayWeatherURL = NetworkUtils.buildUrlForWeatherOneDay();
@@ -71,8 +70,7 @@ public class MainActivity extends AppCompatActivity {
         currentStats = findViewById(R.id.currentStats);
         summary = findViewById(R.id.summary);
 
-        fetchForecastDetails = new FetchForecastDetails();
-        fetchForecastDetails.execute(twelveHourWeatherURL, singleDayWeatherURL, currentWeatherURL);
+        new FetchForecastDetails().execute(twelveHourWeatherURL, singleDayWeatherURL, currentWeatherURL);
 
 
 //        daySummary = findViewById(R.id.daySummary);
@@ -101,7 +99,8 @@ public class MainActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             // Refresh the weather info when the user hits the refresh button
             case R.id.action_refreshWeather:
-                fetchForecastDetails.execute(twelveHourWeatherURL, singleDayWeatherURL, currentWeatherURL);
+                // We use a new fetch details here because each 'execute' can only be executed once
+                new FetchForecastDetails().execute(twelveHourWeatherURL, singleDayWeatherURL, currentWeatherURL);
                 return true;
 
             default:
