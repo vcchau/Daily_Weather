@@ -6,21 +6,29 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
+import android.support.v7.widget.Toolbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
+
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.List;
+
 
 public class MainActivity extends AppCompatActivity {
 
     private String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+
+    private android.support.v7.widget.Toolbar toolbar;
 
     private static final String TAG = MainActivity.class.getSimpleName();
     private ArrayList<Weather> weatherArrayList = new ArrayList<>();
@@ -31,13 +39,26 @@ public class MainActivity extends AppCompatActivity {
     private TextView minMaxTemp;
     private TextView precipChance;
     private TextView currentStats;
-    private TextView daySummary;
-    private TextView nightSummary;
+    private TextView summary;
+    FetchForecastDetails fetchForecastDetails;
+
+    final URL twelveHourWeatherURL = NetworkUtils.buildUrlForWeatherTwelveHours();
+    final URL singleDayWeatherURL = NetworkUtils.buildUrlForWeatherOneDay();
+    final URL currentWeatherURL = NetworkUtils.buildUrlForCurrentWeather();
+
+
+
+//    private TextView daySummary;
+//    private TextView nightSummary;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        // Set up our toolbar
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         // Initialize all of the textViews for the main UI
         recyclerView = findViewById(R.id.recycler_view);
@@ -48,14 +69,16 @@ public class MainActivity extends AppCompatActivity {
         minMaxTemp = findViewById(R.id.dailyMinMax);
         precipChance = findViewById(R.id.precipChance);
         currentStats = findViewById(R.id.currentStats);
-        daySummary = findViewById(R.id.daySummary);
-        nightSummary = findViewById(R.id.nightSummary);
+        summary = findViewById(R.id.summary);
+
+        fetchForecastDetails = new FetchForecastDetails();
+        fetchForecastDetails.execute(twelveHourWeatherURL, singleDayWeatherURL, currentWeatherURL);
+
+
+//        daySummary = findViewById(R.id.daySummary);
+//        nightSummary = findViewById(R.id.nightSummary);
 
         // Build the API request URLs and handle them in an async task
-        URL twelveHourWeatherURL = NetworkUtils.buildUrlForWeatherTwelveHours();
-        URL singleDayWeatherURL = NetworkUtils.buildUrlForWeatherOneDay();
-        URL currentWeatherURL = NetworkUtils.buildUrlForCurrentWeather();
-        new FetchWeatherDetails().execute(twelveHourWeatherURL, singleDayWeatherURL, currentWeatherURL);
 
         // Initialize recycler view
 //        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, weatherArrayList);
@@ -65,9 +88,29 @@ public class MainActivity extends AppCompatActivity {
 //        Log.i(TAG, "onCreate singleDayWeatherURL: " + twelveHourWeatherURL);
     }
 
+    // Create our action bar buttons
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Refresh the weather info when the user hits the refresh button
+            case R.id.action_refreshWeather:
+                fetchForecastDetails.execute(twelveHourWeatherURL, singleDayWeatherURL, currentWeatherURL);
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
 
     // Class to fetch the details from our URL in the background
-    private class FetchWeatherDetails extends AsyncTask<URL, Void, ArrayList<String>> {
+    private class FetchForecastDetails extends AsyncTask<URL, Void, ArrayList<String>> {
 
         @Override
         protected void onPreExecute() {
@@ -158,20 +201,23 @@ public class MainActivity extends AppCompatActivity {
             String dailyMax = temperature.getJSONObject("Maximum").getString("Value");
             minMaxTemp.setText(dailyMax + "°F/ " + dailyMin + "°F");
 
-            // Update the verbose summary for the day
+            // Update the precip chances for day and night
             JSONObject dayObject = dailyForecasts.getJSONObject("Day");
             String dayPrecipChance = dayObject.getString("PrecipitationProbability");
-            String daySummaryString = dayObject.getString("LongPhrase");
-            daySummary.setText(daySummaryString + " in the day");
-
-            // Update the verbose summary for the night
             JSONObject nightObject = dailyForecasts.getJSONObject("Night");
             String nightPrecipChance = nightObject.getString("PrecipitationProbability");
-            String nightSummaryString = nightObject.getString("LongPhrase");
-            nightSummary.setText(nightSummaryString + " at night");
+
+            String summaryString = currentWeatherJSON.getString("WeatherText");
+            summary.setText(summaryString);
+
+//            String daySummaryString = dayObject.getString("LongPhrase");
+//            daySummary.setText(daySummaryString + " in the day");
+//
+//            String nightSummaryString = nightObject.getString("LongPhrase");
+//            nightSummary.setText(nightSummaryString + " at night");
 
             // Update the day's precip chances in the day and at night
-            precipChance.setText("Precip: " + dayPrecipChance + "%/ " + nightPrecipChance + "%");
+            precipChance.setText("Precip: " + dayPrecipChance + "% / " + nightPrecipChance + "%");
 
             // Update the current temp
             String currentTemperature = currentWeatherJSON.getJSONObject("Temperature").getJSONObject("Imperial").getString("Value");
