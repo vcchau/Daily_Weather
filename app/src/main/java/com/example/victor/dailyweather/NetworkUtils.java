@@ -1,18 +1,19 @@
 package com.example.victor.dailyweather;
 
+import android.content.Context;
 import android.net.Uri;
-import android.util.Log;
+import android.widget.Toast;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.HashMap;
-import java.util.Map;
 import java.util.Scanner;
 
-public class NetworkUtils {
+public class NetworkUtils extends  MainActivity{
 
 
     private final static String TAG = "NetworkUtils";
@@ -162,6 +163,11 @@ public class NetworkUtils {
             else {
                 return null;
             }
+        }
+        catch (FileNotFoundException e) {
+            e.printStackTrace();
+            String error = "error";
+            return error;
         }
         finally {
             urlConnection.disconnect();

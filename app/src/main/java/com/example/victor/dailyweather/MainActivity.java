@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -152,6 +153,19 @@ public class MainActivity extends AppCompatActivity {
             final String singleDayJSON = weatherJSONs.get(1);
             final String currentWeatherJSON = weatherJSONs.get(2);
 
+            // We reached an unknown error
+            // Only error we run into right now is running out of API requests; used for debugging/logging
+            if (twelveHourJSON.equals("error") || singleDayJSON.equals("error") || currentWeatherJSON.equals("error")) {
+                // Updating the UI needs to be ran in the UI thread
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "You have run out of API requests for today.",
+                                        Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
             // Update the RecyclerView list
             if (twelveHourJSON != null && !twelveHourJSON.equals("")) {
                 weatherArrayList = parseTwelveHourJSONs(twelveHourJSON);
@@ -161,7 +175,6 @@ public class MainActivity extends AppCompatActivity {
             if (singleDayJSON != null && !singleDayJSON.equals("") && currentWeatherJSON != null && !currentWeatherJSON.equals("")) {
                 // Updating the UI needs to be ran in the UI thread
                 runOnUiThread(new Runnable() {
-
                     @Override
                     public void run() {
 
