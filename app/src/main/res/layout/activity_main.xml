@@ -8,99 +8,121 @@
     tools:context=".MainActivity"
     android:id="@+id/parent_layout">
 
-    <TextView
-        android:id="@+id/location"
+    <android.support.v4.widget.NestedScrollView
+        android:id="@+id/scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:textSize="15dp"
-        android:hint="city"/>
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:hint="Date"
-        android:textAlignment="center"
-        android:textSize="30dp"
-        app:layout_constraintTop_toBottomOf="@id/location"
-        app:layout_constraintVertical_weight="1" />
-
-    <TextView
-        android:id="@+id/currentTemp"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="#°F "
-        android:textAlignment="center"
-        android:textSize="40dp"
-        app:layout_constraintTop_toBottomOf="@id/date"/>
-
-    <TextView
-        android:id="@+id/humidity"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="realfeel / % humidity "
-        android:textAlignment="center"
-        android:textSize="15dp"
-        app:layout_constraintTop_toBottomOf="@id/currentTemp"
-        />
-
-    <TextView
-        android:id="@+id/currentStats"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="UV index / # mph NE"
-        app:layout_constraintTop_toBottomOf="@id/humidity"
-        android:textAlignment="center"
-        android:textSize="15dp"/>
-
-    <TextView
-        android:id="@+id/dailyMinMax"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAlignment="center"
-        android:hint="#°F/#°F"
-        android:textSize="15dp"
-        app:layout_constraintTop_toBottomOf="@id/currentStats"/>
-
-    <TextView
-        android:id="@+id/precipChance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="%/% chance of preciptation"
-        android:textAlignment="center"
-        android:textSize="15dp"
-        app:layout_constraintTop_toBottomOf="@id/dailyMinMax"/>
+        <android.support.constraint.ConstraintLayout
+            android:id="@+id/relative_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/daySummary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="in the morning"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@id/precipChance"/>
+            <TextView
+                android:id="@+id/location"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textSize="30dp"
+                android:hint="city"/>
 
-    <TextView
-        android:id="@+id/nightSummary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="at night"
-        android:textAlignment="center"
-        android:textSize="20dp"
-        app:layout_constraintTop_toBottomOf="@id/daySummary"/>
+            <TextView
+                android:id="@+id/date"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:hint="Date"
+                android:textAlignment="center"
+                android:textSize="30dp"
+                app:layout_constraintTop_toBottomOf="@id/location"
+                app:layout_constraintVertical_weight="1" />
+
+            <TextView
+                android:id="@+id/daySummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="in the morning"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                app:layout_constraintTop_toBottomOf="@id/date"/>
+
+            <TextView
+                android:id="@+id/nightSummary"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="at night"
+                android:textAlignment="center"
+                android:textSize="20dp"
+                app:layout_constraintTop_toBottomOf="@id/daySummary"/>
+
+            <TextView
+                android:id="@+id/currentTemp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="#°F "
+                android:textAlignment="center"
+                android:textSize="40dp"
+                app:layout_constraintTop_toBottomOf="@id/nightSummary"/>
+
+            <TextView
+                android:id="@+id/dailyMinMax"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:hint="#°F/#°F"
+                android:textSize="15dp"
+                app:layout_constraintTop_toBottomOf="@id/currentTemp"/>
+
+            <TextView
+                android:id="@+id/humidity"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="realfeel / % humidity "
+                android:textAlignment="center"
+                android:textSize="15dp"
+                app:layout_constraintTop_toBottomOf="@id/dailyMinMax"
+                />
+
+            <TextView
+                android:id="@+id/precipChance"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="%/% chance of preciptation"
+                android:textAlignment="center"
+                android:textSize="15dp"
+                app:layout_constraintTop_toBottomOf="@id/humidity"/>
+
+            <TextView
+                android:id="@+id/currentStats"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="UV index / # mph NE"
+                app:layout_constraintTop_toBottomOf="@id/precipChance"
+                android:textAlignment="center"
+                android:textSize="15dp"/>
+
+            <TextView
+                android:id="@+id/twelveHourForecast"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="12 hour forecast from #:## to #:##"
+                app:layout_constraintTop_toBottomOf="@id/currentStats"
+                android:textAlignment="center"
+                android:textSize="15dp"/>
 
 
-    <android.support.v7.widget.RecyclerView
-        android:id="@+id/recycler_view"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/nightSummary"
-        app:layout_constraintVertical_weight="1"
-        ></android.support.v7.widget.RecyclerView>
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:layout_constraintTop_toBottomOf="@id/twelveHourForecast"
+                ></android.support.v7.widget.RecyclerView>
+
+
+        </android.support.constraint.ConstraintLayout>
+
+
+
+    </android.support.v4.widget.NestedScrollView>
 
 </android.support.constraint.ConstraintLayout>

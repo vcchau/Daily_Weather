@@ -41,6 +41,7 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize all of the textViews for the main UI
         recyclerView = findViewById(R.id.recycler_view);
+        recyclerView.setNestedScrollingEnabled(false);
         date = findViewById(R.id.date);
         currentTemp = findViewById(R.id.currentTemp);
         humidity = findViewById(R.id.humidity);
@@ -170,7 +171,7 @@ public class MainActivity extends AppCompatActivity {
             nightSummary.setText(nightSummaryString + " at night");
 
             // Update the day's precip chances in the day and at night
-            precipChance.setText("Precip " + dayPrecipChance + "%/ " + nightPrecipChance + "%");
+            precipChance.setText("Precip: " + dayPrecipChance + "%/ " + nightPrecipChance + "%");
 
             // Update the current temp
             String currentTemperature = currentWeatherJSON.getJSONObject("Temperature").getJSONObject("Imperial").getString("Value");
@@ -179,7 +180,7 @@ public class MainActivity extends AppCompatActivity {
             // Update Realfeel and humidity
             String realFeelTemp = currentWeatherJSON.getJSONObject("RealFeelTemperature").getJSONObject("Imperial").getString("Value");
             String humidityPercentage = currentWeatherJSON.getString("RelativeHumidity");
-            humidity.setText("Realfeel " + realFeelTemp + "°F / Humidity " + humidityPercentage + "5");
+            humidity.setText("Realfeel " + realFeelTemp + "°F / Humidity " + humidityPercentage + "%");
 
             // Update UV Index and current MPH
             JSONObject currentWind = currentWeatherJSON.getJSONObject("Wind");
@@ -324,7 +325,11 @@ public class MainActivity extends AppCompatActivity {
     // Get the date in format of MM/DD
     public String getDate (String s) {
         String month = months[Integer.parseInt(s.substring(5, 7))];
-        String day = s.substring(9, 11);
+        String day = s.substring(8, 10);
+        // Days 01-09
+        if (day.charAt(0) == '0') {
+            day = day.substring(1);
+        }
 
         String date = month + " " + day;
         return date;
