@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         minMaxTemp = findViewById(R.id.dailyMinMax);
         precipChance = findViewById(R.id.precipChance);
         currentStats = findViewById(R.id.currentStats);
-        daySummary = findViewById(R.id.summary);
+        daySummary = findViewById(R.id.daySummary);
         nightSummary = findViewById(R.id.nightSummary);
 
         // Build the API request URLs and handle them in an async task
@@ -136,6 +136,8 @@ public class MainActivity extends AppCompatActivity {
     // Updates the UI with current weather info
     private void updateUI (String singleDayWeatherResults, String currentWeatherResults) {
         try {
+            Log.i(TAG, "single day : " + singleDayWeatherResults);
+            Log.i(TAG, "current weather : " + currentWeatherResults);
             // Convert currentWeatherResults from form of JSON Array to JSON Object
             JSONArray currentWeatherJSONArray = new JSONArray(currentWeatherResults);
             JSONObject currentWeatherJSON = currentWeatherJSONArray.getJSONObject(0);

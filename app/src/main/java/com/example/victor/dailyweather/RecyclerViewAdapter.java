@@ -78,6 +78,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.summary.setText(hours.get(i).getSummary());
 
 
+        // check for null before setting onClickListener?
 //        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {
