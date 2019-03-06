@@ -28,6 +28,7 @@ import java.util.ArrayList;
 public class MainActivity extends AppCompatActivity {
 
     private String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
+    final URL[] URLs = new URL[3];
 
     private android.support.v7.widget.Toolbar toolbar;
 
@@ -41,11 +42,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView precipChance;
     private TextView currentStats;
     private TextView summary;
-
-    final URL twelveHourWeatherURL = NetworkUtils.buildUrlForWeatherTwelveHours();
-    final URL singleDayWeatherURL = NetworkUtils.buildUrlForWeatherOneDay();
-    final URL currentWeatherURL = NetworkUtils.buildUrlForCurrentWeather();
-
 
 
 //    private TextView daySummary;
@@ -71,7 +67,14 @@ public class MainActivity extends AppCompatActivity {
         currentStats = findViewById(R.id.currentStats);
         summary = findViewById(R.id.summary);
 
-        new FetchForecastDetails().execute(twelveHourWeatherURL, singleDayWeatherURL, currentWeatherURL);
+        URL twelveHourWeatherURL = NetworkUtils.buildUrlForWeatherTwelveHours();
+        URL singleDayWeatherURL = NetworkUtils.buildUrlForWeatherOneDay();
+        URL currentWeatherURL = NetworkUtils.buildUrlForCurrentWeather();
+        URLs[0] = twelveHourWeatherURL;
+        URLs[1] = singleDayWeatherURL;
+        URLs[2] = currentWeatherURL;
+
+        new FetchForecastDetails().execute(URLs[0], URLs[1], URLs[2]);
 
 
 //        daySummary = findViewById(R.id.daySummary);
@@ -101,7 +104,7 @@ public class MainActivity extends AppCompatActivity {
             // Refresh the weather info when the user hits the refresh button
             case R.id.action_refreshWeather:
                 // We use a new fetch details here because each 'execute' can only be executed once
-                new FetchForecastDetails().execute(twelveHourWeatherURL, singleDayWeatherURL, currentWeatherURL);
+                new FetchForecastDetails().execute(URLs[0], URLs[1], URLs[2]);
                 return true;
 
             default:
@@ -177,7 +180,6 @@ public class MainActivity extends AppCompatActivity {
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-
                         // Stuff that updates the UI
                         updateUI(singleDayJSON, currentWeatherJSON);
                     }
@@ -261,6 +263,7 @@ public class MainActivity extends AppCompatActivity {
 
         if (weatherSearchResults != null) {
             try {
+                Log.i(TAG, "weather search results: " + weatherSearchResults);
                 // Create array of 12 single-hour JSONs
                 JSONArray jsonArray = new JSONArray(weatherSearchResults);
 
