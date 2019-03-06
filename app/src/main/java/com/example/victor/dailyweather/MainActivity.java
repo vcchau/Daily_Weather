@@ -44,9 +44,6 @@ public class MainActivity extends AppCompatActivity {
     private TextView summary;
 
 
-//    private TextView daySummary;
-//    private TextView nightSummary;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -67,27 +64,12 @@ public class MainActivity extends AppCompatActivity {
         currentStats = findViewById(R.id.currentStats);
         summary = findViewById(R.id.summary);
 
-        URL twelveHourWeatherURL = NetworkUtils.buildUrlForWeatherTwelveHours();
-        URL singleDayWeatherURL = NetworkUtils.buildUrlForWeatherOneDay();
-        URL currentWeatherURL = NetworkUtils.buildUrlForCurrentWeather();
-        URLs[0] = twelveHourWeatherURL;
-        URLs[1] = singleDayWeatherURL;
-        URLs[2] = currentWeatherURL;
+        URLs[0] = NetworkUtils.buildUrlForWeatherTwelveHours();
+        URLs[1] = NetworkUtils.buildUrlForWeatherOneDay();
+        URLs[2] = NetworkUtils.buildUrlForCurrentWeather();
 
+        // Update the weather on app startup
         new FetchForecastDetails().execute(URLs[0], URLs[1], URLs[2]);
-
-
-//        daySummary = findViewById(R.id.daySummary);
-//        nightSummary = findViewById(R.id.nightSummary);
-
-        // Build the API request URLs and handle them in an async task
-
-        // Initialize recycler view
-//        RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, weatherArrayList);
-//        recyclerView.setAdapter(recyclerViewAdapter);
-//        recyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-//        Log.i(TAG, "onCreate singleDayWeatherURL: " + twelveHourWeatherURL);
     }
 
     // Create our action bar buttons
@@ -144,9 +126,7 @@ public class MainActivity extends AppCompatActivity {
             catch (IOException e) {
                 e.printStackTrace();
             }
-//            Log.i(TAG, "in background results are: " + twelveHourWeatherResults)
 
-//            updateUI(singleDayWeatherResults, currentWeatherResults); *** moved to onPostExecute ***
             return params;
         }
 
@@ -213,7 +193,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject temperature = dailyForecasts.getJSONObject("Temperature");
             String dailyMin = temperature.getJSONObject("Minimum").getString("Value");
             String dailyMax = temperature.getJSONObject("Maximum").getString("Value");
-            minMaxTemp.setText(dailyMax + "°F/ " + dailyMin + "°F");
+            minMaxTemp.setText(dailyMax + "°F / " + dailyMin + "°F");
 
             // Update the precip chances for day and night
             JSONObject dayObject = dailyForecasts.getJSONObject("Day");
@@ -223,12 +203,6 @@ public class MainActivity extends AppCompatActivity {
 
             String summaryString = currentWeatherJSON.getString("WeatherText");
             summary.setText(summaryString);
-
-//            String daySummaryString = dayObject.getString("LongPhrase");
-//            daySummary.setText(daySummaryString + " in the day");
-//
-//            String nightSummaryString = nightObject.getString("LongPhrase");
-//            nightSummary.setText(nightSummaryString + " at night");
 
             // Update the day's precip chances in the day and at night
             precipChance.setText("Precip: " + dayPrecipChance + "% / " + nightPrecipChance + "%");
@@ -314,30 +288,12 @@ public class MainActivity extends AppCompatActivity {
                     String UVIndex = hourObject.getString("UVIndex");
                     hourlyWeather.setUVIndex(UVIndex);
 
-//                    Log.i(TAG, "UV index: " + hourlyWeather.getUVIndex());
-
-                    // Logging info for debugging purposes
-//                    Log.i(TAG, "Min temp: " + hourlyWeather.getMinTemp() + " Max temp: " + hourlyWeather.getMaxTemp());
-//                    Log.i(TAG, "Min RealFeel: " + hourlyWeather.getMinTempRealFeel() + " Max RealFeel: " + hourlyWeather.getMaxTempRealFeel());
-//                    Log.i(TAG, "Precip chance: " + hourlyWeather.getChanceOfPrecipitation() + "%");
-//                    Log.i(TAG, "Wind speeds: " + hourlyWeather.getWindSpeed() + "mph coming from the " + hourlyWeather.getWindDirection());
-
-
-//                    Log.i(TAG, "Date from " + i + date);
-                // Retrieve the JSON Array called 'DailyForecasts'
-//                JSONArray results = rootObject.getJSONArray("DailyForecasts");
-
-                // Create our weather objects and populate with data from the JSON object
-                // Eventually add in for loop to parse data from the 12 hour responses
-                // Can leave out now since we're only using 1-day forecast
-                // may eventually add in a 5-day forecast option
-
                     weatherArrayList.add(hourlyWeather);
                 }
 
                 if (weatherArrayList != null) {
                     Log.i(TAG, "Date from ");
-//                    WeatherAdapter weatherAdapter = new WeatherAdapter(this, weatherArrayList);
+
                     RecyclerViewAdapter recyclerViewAdapter = new RecyclerViewAdapter(this, weatherArrayList);
                     recyclerView.setAdapter(recyclerViewAdapter);
                     recyclerView.setLayoutManager(new LinearLayoutManager(this));
