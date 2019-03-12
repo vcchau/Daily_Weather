@@ -1,8 +1,6 @@
 package com.example.victor.dailyweather;
 
-import android.content.Context;
 import android.net.Uri;
-import android.widget.Toast;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -17,6 +15,8 @@ public class NetworkUtils extends  MainActivity{
 
 
     private final static String TAG = "NetworkUtils";
+
+    private final static String LOCATION_SEARCH = "q";
 
     // API key param
     private final static String PARAM_API_KEY = "apikey";
@@ -80,8 +80,8 @@ public class NetworkUtils extends  MainActivity{
     }};
 
     // Get info for twelve hours
-    public static URL buildUrlForWeatherTwelveHours() {
-        String requestURL = TWELVE_HOUR_BASE_REQUEST_URL + locationKeys.get("austin");
+    public static URL buildUrlForWeatherTwelveHours(String cityKey) {
+        String requestURL = TWELVE_HOUR_BASE_REQUEST_URL + cityKey;
 
         // Use a uri to create our request url
         Uri buildUri = Uri.parse(requestURL).buildUpon()
@@ -103,8 +103,8 @@ public class NetworkUtils extends  MainActivity{
     }
 
     // Get current weather info
-    public static URL buildUrlForCurrentWeather() {
-        String requestURL = CURRENT_CONDITIONS_BASE_URL + locationKeys.get("austin");
+    public static URL buildUrlForCurrentWeather(String cityKey) {
+        String requestURL = CURRENT_CONDITIONS_BASE_URL + cityKey;
 
         // Use a uri to create our request url
         Uri buildUri = Uri.parse(requestURL).buildUpon()
@@ -126,14 +126,36 @@ public class NetworkUtils extends  MainActivity{
     }
 
     // Get info for the day
-    public static URL buildUrlForWeatherOneDay() {
-        String requestURL = ONE_DAY_BASE_REQUEST_URL + locationKeys.get("austin");
+    public static URL buildUrlForWeatherOneDay(String cityKey) {
+        String requestURL = ONE_DAY_BASE_REQUEST_URL + cityKey;
 
         // Use a uri to create our request url
         Uri buildUri = Uri.parse(requestURL).buildUpon()
                 .appendQueryParameter(PARAM_API_KEY, API_KEY)
                 .appendQueryParameter(PARAM_EXTRA_DETAILS, EXTRA_PARAMS)
                 .appendQueryParameter(METRIC_PARAMS, METRIC_VALUES)
+                .build();
+
+        // Attempt to create the url
+        URL url = null;
+        try {
+            url = new URL(buildUri.toString());
+        }
+        catch (MalformedURLException e) {
+            e.printStackTrace();
+        }
+
+        return url;
+    }
+
+    public static URL buildUrlForCity(String city) {
+        // http://dataservice.accuweather.com/locations/v1/cities/search?apikey=GxYQk4DSEGfg1j2oRQvQVz5P1bCwqAJ1&q=austin
+        // http://dataservice.accuweather.com/locations/v1/cities/search?apikey=GxYQk4DSEGfg1j2oRQvQVz5P1bCwqAJ1&q=austin%20texas
+        String requestURL = LOCATION_SEARCH_BASE_URL;
+
+        Uri buildUri = Uri.parse(requestURL).buildUpon()
+                .appendQueryParameter(PARAM_API_KEY, API_KEY)
+                .appendQueryParameter(LOCATION_SEARCH, city)
                 .build();
 
         // Attempt to create the url

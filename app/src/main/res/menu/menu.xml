@@ -3,10 +3,22 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <item
+        android:id="@+id/get_location"
+        android:icon="@android:drawable/ic_menu_mylocation"
+        android:title="@string/app_name"
+        app:showAsAction="always"/>
+
+    <item
         android:title="@string/app_name"
         android:id="@+id/action_refreshWeather"
         android:icon="@android:drawable/stat_notify_sync"
         app:showAsAction="always"/>
 
+
+    <item
+        android:title="Set Default City"
+        android:id="@+id/set_default"
+        android:icon="@android:drawable/ic_dialog_map"
+        app:showAsAction="never"/>
 
 </menu>

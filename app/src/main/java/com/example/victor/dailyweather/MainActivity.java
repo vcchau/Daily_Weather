@@ -1,6 +1,9 @@
 package com.example.victor.dailyweather;
 
+import android.content.DialogInterface;
+import android.graphics.Color;
 import android.os.AsyncTask;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -9,10 +12,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.TextView;
-import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -31,10 +32,11 @@ public class MainActivity extends AppCompatActivity {
     final URL[] URLs = new URL[3];
 
     private android.support.v7.widget.Toolbar toolbar;
-
+    private String locationKey;
     private static final String TAG = MainActivity.class.getSimpleName();
     private ArrayList<Weather> weatherArrayList = new ArrayList<>();
     private RecyclerView recyclerView;
+    private TextView locationView;
     private TextView date;
     private TextView currentTemp;
     private TextView humidity;
@@ -56,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize all of the textViews for the main UI
         recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setNestedScrollingEnabled(false);
+        locationView = findViewById(R.id.location);
         date = findViewById(R.id.date);
         currentTemp = findViewById(R.id.currentTemp);
         humidity = findViewById(R.id.humidity);
@@ -64,12 +67,14 @@ public class MainActivity extends AppCompatActivity {
         currentStats = findViewById(R.id.currentStats);
         summary = findViewById(R.id.summary);
 
-        URLs[0] = NetworkUtils.buildUrlForWeatherTwelveHours();
-        URLs[1] = NetworkUtils.buildUrlForWeatherOneDay();
-        URLs[2] = NetworkUtils.buildUrlForCurrentWeather();
+//        URLs[0] = NetworkUtils.buildUrlForWeatherTwelveHours(cityKey);
+//        URLs[1] = NetworkUtils.buildUrlForWeatherOneDay(cityKey);
+//        URLs[2] = NetworkUtils.buildUrlForCurrentWeather(cityKey);
 
         // Update the weather on app startup
-        new FetchForecastDetails().execute(URLs[0], URLs[1], URLs[2]);
+//        new FetchForecastDetails().execute(URLs[0], URLs[1], URLs[2]);
+
+
     }
 
     // Create our action bar buttons
@@ -89,9 +94,154 @@ public class MainActivity extends AppCompatActivity {
                 new FetchForecastDetails().execute(URLs[0], URLs[1], URLs[2]);
                 return true;
 
+            case R.id.get_location:
+                displayDialog();
+                return true;
+
             default:
                 return super.onOptionsItemSelected(item);
         }
+    }
+
+    private void displayDialog() {
+        // Create an alert to prompt user for input
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+        alertDialog.setTitle("Enter a city and state");
+
+        // Create an EditText whenever the alert dialog is created
+        final EditText editText = new EditText(MainActivity.this);
+        editText.setPadding(30, 30, 30, 30);
+        alertDialog.setView(editText);
+
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Get the city from user and search API for location key
+                String city = editText.getText().toString().trim();
+                Log.i(TAG, "City is: " + city);
+                Log.i(TAG, "Value is : " + (!city.equals(null) && !city.equals("") && !city.equals(" ")));
+
+                if (!city.equals(null) && !city.equals("") && !city.equals(" ")) {
+                    URL locationURL = NetworkUtils.buildUrlForCity(city);
+                    Log.i(TAG,"City is: " + city);
+                    Log.i(TAG, "Location URL is: " + locationURL);
+
+                    // Attempt to grab the location key from the URL generated
+                    new FetchLocationKey().execute(locationURL);
+                }
+                else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "There was an error fetching your city. Please re-enter your city.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    displayDialog();
+                }
+            }
+        });
+
+        alertDialog.setNegativeButton("Cancel", null);
+
+        AlertDialog a = alertDialog.create();
+        a.show();
+        a.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#49e5dd"));
+        a.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#1a191c"));
+    }
+
+    private void setLocation (String location) {
+        locationView.setText(location);
+    }
+
+    // Class to grab the location key
+    private class FetchLocationKey extends AsyncTask<URL, Void, String> {
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+        }
+
+        @Override
+        protected String doInBackground(URL... urls) {
+            URL locationURL = urls[0];
+            String locationKeyData = null;
+
+            try {
+                locationKeyData = NetworkUtils.getResponse(locationURL);
+            }
+            catch (Exception e) {
+                e.printStackTrace();
+            }
+
+            return locationKeyData;
+        }
+
+        @Override
+        protected void onPostExecute(String locationKeyData) {
+            if (locationKeyData != null && locationKeyData != "") {
+                // Grab the location string from parseLocation
+                final String[] location = new String[1];
+                location[0] = parseLocation(locationKeyData);
+
+                if (location != null) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            setLocation(location[0]);
+                        }
+                    });
+                }
+            }
+            else {
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Toast.makeText(MainActivity.this, "There was an error fetching your city. Please re-enter your city.",
+                                Toast.LENGTH_LONG).show();
+                    }
+                });
+            }
+
+            super.onPostExecute(locationKeyData);
+        }
+    }
+
+    private String parseLocation (String locationKeyData) {
+        String location = "";
+        try {
+            Log.i(TAG, "Location key data: " + locationKeyData);
+            JSONArray locationArray = new JSONArray(locationKeyData);
+            JSONObject locationObject = locationArray.getJSONObject(0);
+
+            String city = locationObject.getString("LocalizedName");
+            String state = locationObject.getJSONObject("AdministrativeArea").getString("LocalizedName");
+            location = city + ", " + state;
+
+            this.locationKey = locationObject.getString("Key");
+            Log.i(TAG, "Location key is: " + locationKeyData);
+
+            URLs[0] = NetworkUtils.buildUrlForWeatherTwelveHours(locationKey);
+            URLs[1] = NetworkUtils.buildUrlForWeatherOneDay(locationKey);
+            URLs[2] = NetworkUtils.buildUrlForCurrentWeather(locationKey);
+
+            // Update the weather on app startup
+            new FetchForecastDetails().execute(URLs[0], URLs[1], URLs[2]);
+
+        }
+        catch (JSONException e) {
+            e.printStackTrace();
+            // Give the user a warning message and re-initialize text prompt
+            runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Toast.makeText(MainActivity.this, "There was an error fetching your city. Please re-enter your city.",
+                            Toast.LENGTH_LONG).show();
+                }
+            });
+            displayDialog();
+        }
+        return location;
     }
 
     // Class to fetch the details from our URL in the background

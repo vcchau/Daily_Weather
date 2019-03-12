@@ -29,6 +29,19 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+            <!--<EditText-->
+                <!--android:id="@+id/location_prompt"-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:textSize="30dp"-->
+                <!--android:inputType="textPersonName"-->
+                <!--android:text="Enter a city: "-->
+                <!--android:paddingTop="?android:attr/actionBarSize"-->
+                <!--android:textStyle="bold"-->
+                <!--android:textAlignment="center"-->
+
+                <!--/>-->
+
             <TextView
                 android:id="@+id/location"
                 android:layout_width="match_parent"
@@ -114,6 +127,8 @@
                 android:layout_marginBottom="?attr/actionBarSize"
                 app:layout_constrainedHeight="true"
                 ></android.support.v7.widget.RecyclerView>
+
+
 
         </android.support.constraint.ConstraintLayout>
 
