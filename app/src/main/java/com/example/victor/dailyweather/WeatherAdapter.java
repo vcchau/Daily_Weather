@@ -31,12 +31,12 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         TextView currentTemp = convertView.findViewById(R.id.currentTemp);
         TextView realFeel = convertView.findViewById(R.id.realFeel);
         TextView windSpeeds = convertView.findViewById(R.id.windSpeed);
-        TextView windDirection = convertView.findViewById(R.id.windDirection);
+        TextView UVIndex = convertView.findViewById(R.id.UVIndex);
         TextView precipChance = convertView.findViewById(R.id.precipChance);
         TextView humidity = convertView.findViewById(R.id.humidity);
         TextView summary = convertView.findViewById(R.id.summary);
 
-//        TextView UVIndex = convertView.findViewById(R.id.UVIndex);
+//        TextView windDirection = convertView.findViewById(R.id.windDirection);
 
 //        TextView link = convertView.findViewById(R.id.link);
 
@@ -44,13 +44,14 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         dateTextView.setText(weather.getTimeStamp());
         currentTemp.setText(weather.getCurrentTemp() + "°F");
         realFeel.setText(weather.getCurrentRealFeelTemp() + "°F");
-        windSpeeds.setText(weather.getWindSpeed() + "mph");
-        windDirection.setText(weather.getWindDirection());
+        windSpeeds.setText(weather.getWindDirection() + " " + weather.getWindSpeed() + "mph");
+        UVIndex.setText(weather.getUVIndex());
         precipChance.setText(weather.getChanceOfPrecipitation() + "%");
         humidity.setText(weather.getRelativeHumidity() + "%");
         summary.setText(weather.getSummary());
 
-//        UVIndex.setText(weather.getUVIndex());
+
+//        windDirection.setText(weather.getWindDirection());
 
 
 //        link.setText(weather.getLink());

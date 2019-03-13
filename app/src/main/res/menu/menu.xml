@@ -21,4 +21,10 @@
         android:icon="@android:drawable/ic_dialog_map"
         app:showAsAction="never"/>
 
+    <item
+        android:title="Info"
+        android:id="@+id/get_info"
+        android:icon="@android:drawable/ic_dialog_map"
+        app:showAsAction="never"/>
+
 </menu>

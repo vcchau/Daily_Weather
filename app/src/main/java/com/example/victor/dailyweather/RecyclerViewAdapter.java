@@ -71,13 +71,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.currentTemp.setText(hours.get(i).getCurrentTemp() + "°F");
         viewHolder.realFeel.setText(hours.get(i).getCurrentRealFeelTemp() + "°F");
         viewHolder.windSpeeds.setText(hours.get(i).getWindSpeed() + " mph");
-        viewHolder.windDirection.setText(hours.get(i).getWindDirection());
         viewHolder.precipChance.setText(hours.get(i).getChanceOfPrecipitation() + "%");
         viewHolder.humidity.setText(hours.get(i).getRelativeHumidity() + "%");
         viewHolder.summary.setText(hours.get(i).getSummary());
-
-//        viewHolder.UVIndex.setText(hours.get(i).getUVIndex());
-
+        viewHolder.UVIndex.setText(hours.get(i).getUVIndex());
+//        viewHolder.windDirection.setText(hours.get(i).getWindDirection());
 
         // check for null before setting onClickListener?
 //        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
@@ -100,12 +98,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView currentTemp;
         TextView realFeel;
         TextView windSpeeds;
-        TextView windDirection;
         TextView precipChance;
         TextView humidity;
         TextView summary;
+        TextView UVIndex;
 
-//        TextView UVIndex;
+//        TextView windDirection;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -114,12 +112,12 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             currentTemp = itemView.findViewById(R.id.currentTemp);
             realFeel = itemView.findViewById(R.id.realFeel);
             windSpeeds = itemView.findViewById(R.id.windSpeed);
-            windDirection = itemView.findViewById(R.id.windDirection);
             precipChance = itemView.findViewById(R.id.precipChance);
             humidity = itemView.findViewById(R.id.humidity);
             summary = itemView.findViewById(R.id.summary);
+            UVIndex = itemView.findViewById(R.id.UVIndex);
 
-//            UVIndex = itemView.findViewById(R.id.UVIndex);
+//            windDirection = itemView.findViewById(R.id.windDirection);
         }
     }
 }

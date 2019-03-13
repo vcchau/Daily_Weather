@@ -1,6 +1,8 @@
 package com.example.victor.dailyweather;
 
+import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.AlertDialog;
@@ -20,6 +22,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import java.net.URL;
@@ -30,6 +33,9 @@ public class MainActivity extends AppCompatActivity {
 
     private String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     final URL[] URLs = new URL[3];
+
+    SharedPreferences sharedPreferences;
+    private String cityPref = "city";
 
     private android.support.v7.widget.Toolbar toolbar;
     private String locationKey;
@@ -44,13 +50,13 @@ public class MainActivity extends AppCompatActivity {
     private TextView precipChance;
     private TextView summary;
 
-//    private TextView currentStats;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        sharedPreferences = this.getSharedPreferences(cityPref, Context.MODE_PRIVATE);
 
         // Set up our toolbar
         toolbar = findViewById(R.id.toolbar);
@@ -67,16 +73,21 @@ public class MainActivity extends AppCompatActivity {
         precipChance = findViewById(R.id.precipChance);
         summary = findViewById(R.id.summary);
 
-//        currentStats = findViewById(R.id.currentStats);
+        String myCity = sharedPreferences.getString(cityPref, "");
 
-//        URLs[0] = NetworkUtils.buildUrlForWeatherTwelveHours(cityKey);
-//        URLs[1] = NetworkUtils.buildUrlForWeatherOneDay(cityKey);
-//        URLs[2] = NetworkUtils.buildUrlForCurrentWeather(cityKey);
+        // Get the preference
+        if (myCity == null || myCity == "" || myCity.equals(null) || myCity.equals("")) {
+            prompt_location();
+        }
+        else {
+            URL locationURL = NetworkUtils.buildUrlForCity(myCity);
+            Log.i(TAG, "Preference found: " + myCity);
+            Log.i(TAG,"City is: " + myCity);
+            Log.i(TAG, "Location URL is: " + locationURL);
 
-        // Update the weather on app startup
-//        new FetchForecastDetails().execute(URLs[0], URLs[1], URLs[2]);
-
-
+            // Attempt to grab the location key from the URL generated
+            new FetchLocationKey().execute(locationURL);
+        }
     }
 
     // Create our action bar buttons
@@ -97,15 +108,104 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.get_location:
-                displayDialog();
+                // Display dialog to prompt user for location
+                prompt_location();
                 return true;
+
+            case R.id.set_default:
+                // Prompt user to set default city
+                set_default_city();
+                return true;
+
+            case R.id.get_info:
+                // Display current saved info
+                show_info();
+                return true;
+
 
             default:
                 return super.onOptionsItemSelected(item);
         }
     }
 
-    private void displayDialog() {
+    // Show the current stored information
+    private void show_info() {
+        String myCity = sharedPreferences.getString(cityPref, "");
+
+        // Create an alert to prompt user for input
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+        alertDialog.setTitle("Info");
+
+        // Create an EditText whenever the alert dialog is created
+        final TextView text = new TextView(MainActivity.this);
+        alertDialog.setView(text);
+        text.setPadding(30, 30, 30, 30);
+
+        text.setText("Default location: " + myCity);
+
+        alertDialog.setPositiveButton("Back", null);
+
+        AlertDialog a = alertDialog.create();
+        a.show();
+        a.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#49e5dd"));
+    }
+
+    // Prompt the user to set a default location to load on start
+    private void set_default_city() {
+        // Create an alert to prompt user for input
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
+        alertDialog.setTitle("Enter a default city and state");
+
+        // Create an EditText whenever the alert dialog is created
+        final EditText editText = new EditText(MainActivity.this);
+        editText.setPadding(30, 30, 30, 30);
+        alertDialog.setView(editText);
+
+        alertDialog.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Get the city from user and search API for location key
+                final String[] city = new String[1];
+                city[0] = editText.getText().toString().trim();
+                Log.i(TAG, "City is: " + city);
+                Log.i(TAG, "Value is : " + (!city.equals(null) && !city.equals("") && !city.equals(" ")));
+
+                // Set the preferred location
+                if (!city.equals(null) && !city.equals("") && !city.equals(" ")) {
+                    Log.i(TAG,"City is: " + city);
+                    sharedPreferences.edit().putString(cityPref, city[0]).apply();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "You have set " + city[0] + " as your default location.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                }
+                else {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "Please enter a valid location.",
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    set_default_city();
+                }
+            }
+        });
+
+        alertDialog.setNegativeButton("Cancel", null);
+
+        AlertDialog a = alertDialog.create();
+        a.show();
+        a.getButton(AlertDialog.BUTTON_POSITIVE).setTextColor(Color.parseColor("#49e5dd"));
+        a.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#1a191c"));
+    }
+
+    // Prompt user for location
+    private void prompt_location() {
         // Create an alert to prompt user for input
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(MainActivity.this);
         alertDialog.setTitle("Enter a city and state");
@@ -139,7 +239,7 @@ public class MainActivity extends AppCompatActivity {
                                     Toast.LENGTH_LONG).show();
                         }
                     });
-                    displayDialog();
+                    prompt_location();
                 }
             }
         });
@@ -152,6 +252,7 @@ public class MainActivity extends AppCompatActivity {
         a.getButton(AlertDialog.BUTTON_NEGATIVE).setTextColor(Color.parseColor("#1a191c"));
     }
 
+    // Set the location on the main UI
     private void setLocation (String location) {
         locationView.setText(location);
     }
@@ -172,9 +273,14 @@ public class MainActivity extends AppCompatActivity {
             try {
                 locationKeyData = NetworkUtils.getResponse(locationURL);
             }
+            catch (FileNotFoundException e) {
+                // Updating the UI needs to be ran in the UI thread
+                print_no_more_request();
+            }
             catch (Exception e) {
                 e.printStackTrace();
             }
+
 
             return locationKeyData;
         }
@@ -241,8 +347,9 @@ public class MainActivity extends AppCompatActivity {
                             Toast.LENGTH_LONG).show();
                 }
             });
-            displayDialog();
+            prompt_location();
         }
+
         return location;
     }
 
@@ -291,14 +398,7 @@ public class MainActivity extends AppCompatActivity {
             // We reached an unknown error
             // Only error we run into right now is running out of API requests; used for debugging/logging
             if (twelveHourJSON.equals("error") || singleDayJSON.equals("error") || currentWeatherJSON.equals("error")) {
-                // Updating the UI needs to be ran in the UI thread
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Toast.makeText(MainActivity.this, "You have run out of API requests for today.",
-                                        Toast.LENGTH_LONG).show();
-                    }
-                });
+                print_no_more_request();
             }
 
             // Update the RecyclerView list
@@ -322,6 +422,13 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(weatherJSONs);
         }
     }
+
+    // Updating the UI needs to be ran in the UI thread
+    private void print_no_more_request() {
+        Toast.makeText(MainActivity.this, "You have run out of API requests for today.",
+                Toast.LENGTH_LONG).show();
+    }
+
 
     // Updates the UI with current weather info
     private void updateUI (String singleDayWeatherResults, String currentWeatherResults) {
@@ -364,8 +471,6 @@ public class MainActivity extends AppCompatActivity {
             String summaryString = currentWeatherJSON.getString("WeatherText");
             summary.setText(summaryString);
 
-
-
             // Update the current temp
             String currentTemperature = currentWeatherJSON.getJSONObject("Temperature").getJSONObject("Imperial").getString("Value");
             currentTemp.setText(currentTemperature + "°F");
@@ -374,13 +479,6 @@ public class MainActivity extends AppCompatActivity {
             String realFeelTemp = currentWeatherJSON.getJSONObject("RealFeelTemperature").getJSONObject("Imperial").getString("Value");
             String humidityPercentage = currentWeatherJSON.getString("RelativeHumidity");
             humidity.setText("Realfeel " + realFeelTemp + "°F / Humidity " + humidityPercentage + "%");
-
-
-
-
-//            String UVIndex = currentWeatherJSON.getString("UVIndex");
-//            currentStats.setText(currentWindSpeed + " mph " + currentWindDirection + " / UV Index: " + UVIndex);
-
         }
         catch (JSONException e) {
             e.printStackTrace();
