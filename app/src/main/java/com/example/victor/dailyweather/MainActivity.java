@@ -31,6 +31,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends AppCompatActivity {
 
+    private final static String NO_MORE_API_REQUESTS = "{\"Code\":\"ServiceUnavailable\",\"Message\":\"The allowed number of requests has been exceeded.\"";
+
     private String[] months = {"January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"};
     final URL[] URLs = new URL[3];
 
@@ -275,7 +277,7 @@ public class MainActivity extends AppCompatActivity {
             }
             catch (FileNotFoundException e) {
                 // Updating the UI needs to be ran in the UI thread
-                print_no_more_request();
+                print_no_more_requests();
             }
             catch (Exception e) {
                 e.printStackTrace();
@@ -319,22 +321,27 @@ public class MainActivity extends AppCompatActivity {
         String location = "";
         try {
             Log.i(TAG, "Location key data: " + locationKeyData);
-            JSONArray locationArray = new JSONArray(locationKeyData);
-            JSONObject locationObject = locationArray.getJSONObject(0);
+            if (locationKeyData.contains(NO_MORE_API_REQUESTS) || locationKeyData.equals("error")) {
+                print_no_more_requests();
+            }
+            else {
+                JSONArray locationArray = new JSONArray(locationKeyData);
+                JSONObject locationObject = locationArray.getJSONObject(0);
 
-            String city = locationObject.getString("LocalizedName");
-            String state = locationObject.getJSONObject("AdministrativeArea").getString("LocalizedName");
-            location = city + ", " + state;
+                String city = locationObject.getString("LocalizedName");
+                String state = locationObject.getJSONObject("AdministrativeArea").getString("LocalizedName");
+                location = city + ", " + state;
 
-            this.locationKey = locationObject.getString("Key");
-            Log.i(TAG, "Location key is: " + locationKeyData);
+                this.locationKey = locationObject.getString("Key");
+                Log.i(TAG, "Location key is: " + locationKeyData);
 
-            URLs[0] = NetworkUtils.buildUrlForWeatherTwelveHours(locationKey);
-            URLs[1] = NetworkUtils.buildUrlForWeatherOneDay(locationKey);
-            URLs[2] = NetworkUtils.buildUrlForCurrentWeather(locationKey);
+                URLs[0] = NetworkUtils.buildUrlForWeatherTwelveHours(locationKey);
+                URLs[1] = NetworkUtils.buildUrlForWeatherOneDay(locationKey);
+                URLs[2] = NetworkUtils.buildUrlForCurrentWeather(locationKey);
 
-            // Update the weather on app startup
-            new FetchForecastDetails().execute(URLs[0], URLs[1], URLs[2]);
+                // Update the weather on app startup
+                new FetchForecastDetails().execute(URLs[0], URLs[1], URLs[2]);
+            }
 
         }
         catch (JSONException e) {
@@ -372,15 +379,20 @@ public class MainActivity extends AppCompatActivity {
             ArrayList<String> params = new ArrayList<>();
 
             try {
-                // Grab the responses from the API request URLs
-                twelveHourWeatherResults = NetworkUtils.getResponse(twelveHourWeatherURL);
-                singleDayWeatherResults = NetworkUtils.getResponse(singleDayWeatherURL);
-                currentWeatherResults = NetworkUtils.getResponse(currentWeatherURL);
+                if (twelveHourWeatherURL != null || singleDayWeatherURL != null || currentWeatherURL != null) {
+                    // Grab the responses from the API request URLs
+                    twelveHourWeatherResults = NetworkUtils.getResponse(twelveHourWeatherURL);
+                    singleDayWeatherResults = NetworkUtils.getResponse(singleDayWeatherURL);
+                    currentWeatherResults = NetworkUtils.getResponse(currentWeatherURL);
 
-                // Add the JSON strings to the params list
-                params.add(twelveHourWeatherResults);
-                params.add(singleDayWeatherResults);
-                params.add(currentWeatherResults);
+                    // Add the JSON strings to the params list
+                    params.add(twelveHourWeatherResults);
+                    params.add(singleDayWeatherResults);
+                    params.add(currentWeatherResults);
+                }
+                else {
+                    print_no_more_requests();
+                }
             }
             catch (IOException e) {
                 e.printStackTrace();
@@ -391,32 +403,37 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected void onPostExecute(ArrayList<String> weatherJSONs) {
-            String twelveHourJSON = weatherJSONs.get(0);
-            final String singleDayJSON = weatherJSONs.get(1);
-            final String currentWeatherJSON = weatherJSONs.get(2);
-
-            // We reached an unknown error
-            // Only error we run into right now is running out of API requests; used for debugging/logging
-            if (twelveHourJSON.equals("error") || singleDayJSON.equals("error") || currentWeatherJSON.equals("error")) {
-                print_no_more_request();
+            if (weatherJSONs.isEmpty()) {
+                print_no_more_requests();
             }
+            else {
+                String twelveHourJSON = weatherJSONs.get(0);
+                final String singleDayJSON = weatherJSONs.get(1);
+                final String currentWeatherJSON = weatherJSONs.get(2);
 
-            // Update the RecyclerView list
-            if (twelveHourJSON != null && !twelveHourJSON.equals("")) {
-                weatherArrayList = parseTwelveHourJSONs(twelveHourJSON);
-            }
+                // We reached an unknown error
+                // Only error we run into right now is running out of API requests; used for debugging/logging
+                if (twelveHourJSON.equals("error") || singleDayJSON.equals("error") || currentWeatherJSON.equals("error")) {
+                    print_no_more_requests();
+                }
 
-            // Update the UI at the top
-            if (singleDayJSON != null && !singleDayJSON.equals("") && currentWeatherJSON != null && !currentWeatherJSON.equals("")) {
-                // Updating the UI needs to be ran in the UI thread
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        // Stuff that updates the UI
-                        updateUI(singleDayJSON, currentWeatherJSON);
-                    }
-                });
+                // Update the RecyclerView list
+                if (twelveHourJSON != null && !twelveHourJSON.equals("")) {
+                    weatherArrayList = parseTwelveHourJSONs(twelveHourJSON);
+                }
 
+                // Update the UI at the top
+                if (singleDayJSON != null && !singleDayJSON.equals("") && currentWeatherJSON != null && !currentWeatherJSON.equals("")) {
+                    // Updating the UI needs to be ran in the UI thread
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Stuff that updates the UI
+                            updateUI(singleDayJSON, currentWeatherJSON);
+                        }
+                    });
+
+                }
             }
 
             super.onPostExecute(weatherJSONs);
@@ -424,9 +441,14 @@ public class MainActivity extends AppCompatActivity {
     }
 
     // Updating the UI needs to be ran in the UI thread
-    private void print_no_more_request() {
-        Toast.makeText(MainActivity.this, "You have run out of API requests for today.",
-                Toast.LENGTH_LONG).show();
+    private void print_no_more_requests() {
+        runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Toast.makeText(MainActivity.this, "You have run out of API requests for today.",
+                        Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
 
