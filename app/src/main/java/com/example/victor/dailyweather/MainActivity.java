@@ -500,7 +500,7 @@ public class MainActivity extends AppCompatActivity {
 
             // Update humidity
             String humidityPercentage = currentWeatherJSON.getString("RelativeHumidity");
-            humidity.setText(currentWindDirection + currentWindSpeed + " mph / Humidity " + humidityPercentage + "%");
+            humidity.setText(currentWindDirection + " " + currentWindSpeed + " mph / Humidity " + humidityPercentage + "%");
         }
         catch (JSONException e) {
             e.printStackTrace();
