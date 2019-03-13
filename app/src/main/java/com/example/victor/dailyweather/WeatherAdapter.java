@@ -34,8 +34,9 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         TextView windDirection = convertView.findViewById(R.id.windDirection);
         TextView precipChance = convertView.findViewById(R.id.precipChance);
         TextView humidity = convertView.findViewById(R.id.humidity);
-        TextView UVIndex = convertView.findViewById(R.id.UVIndex);
         TextView summary = convertView.findViewById(R.id.summary);
+
+//        TextView UVIndex = convertView.findViewById(R.id.UVIndex);
 
 //        TextView link = convertView.findViewById(R.id.link);
 
@@ -47,8 +48,10 @@ public class WeatherAdapter extends ArrayAdapter<Weather> {
         windDirection.setText(weather.getWindDirection());
         precipChance.setText(weather.getChanceOfPrecipitation() + "%");
         humidity.setText(weather.getRelativeHumidity() + "%");
-        UVIndex.setText(weather.getUVIndex());
         summary.setText(weather.getSummary());
+
+//        UVIndex.setText(weather.getUVIndex());
+
 
 //        link.setText(weather.getLink());
 

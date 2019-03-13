@@ -42,8 +42,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView humidity;
     private TextView minMaxTemp;
     private TextView precipChance;
-    private TextView currentStats;
     private TextView summary;
+
+//    private TextView currentStats;
 
 
     @Override
@@ -64,8 +65,9 @@ public class MainActivity extends AppCompatActivity {
         humidity = findViewById(R.id.humidity);
         minMaxTemp = findViewById(R.id.dailyMinMax);
         precipChance = findViewById(R.id.precipChance);
-        currentStats = findViewById(R.id.currentStats);
         summary = findViewById(R.id.summary);
+
+//        currentStats = findViewById(R.id.currentStats);
 
 //        URLs[0] = NetworkUtils.buildUrlForWeatherTwelveHours(cityKey);
 //        URLs[1] = NetworkUtils.buildUrlForWeatherOneDay(cityKey);
@@ -351,11 +353,18 @@ public class MainActivity extends AppCompatActivity {
             JSONObject nightObject = dailyForecasts.getJSONObject("Night");
             String nightPrecipChance = nightObject.getString("PrecipitationProbability");
 
+            // Update UV Index and current MPH
+            JSONObject currentWind = currentWeatherJSON.getJSONObject("Wind");
+            String currentWindSpeed = currentWind.getJSONObject("Speed").getJSONObject("Imperial").getString("Value");
+            String currentWindDirection = currentWind.getJSONObject("Direction").getString("English");
+
+            // Update the day's precip chances in the day and at night
+            precipChance.setText("Precip: " + dayPrecipChance + "% / " + nightPrecipChance + "% / " + currentWindSpeed + " mph " + currentWindDirection);
+
             String summaryString = currentWeatherJSON.getString("WeatherText");
             summary.setText(summaryString);
 
-            // Update the day's precip chances in the day and at night
-            precipChance.setText("Precip: " + dayPrecipChance + "% / " + nightPrecipChance + "%");
+
 
             // Update the current temp
             String currentTemperature = currentWeatherJSON.getJSONObject("Temperature").getJSONObject("Imperial").getString("Value");
@@ -366,12 +375,11 @@ public class MainActivity extends AppCompatActivity {
             String humidityPercentage = currentWeatherJSON.getString("RelativeHumidity");
             humidity.setText("Realfeel " + realFeelTemp + "°F / Humidity " + humidityPercentage + "%");
 
-            // Update UV Index and current MPH
-            JSONObject currentWind = currentWeatherJSON.getJSONObject("Wind");
-            String currentWindSpeed = currentWind.getJSONObject("Speed").getJSONObject("Imperial").getString("Value");
-            String currentWindDirection = currentWind.getJSONObject("Direction").getString("English");
-            String UVIndex = currentWeatherJSON.getString("UVIndex");
-            currentStats.setText(currentWindSpeed + " mph " + currentWindDirection + " / UV Index: " + UVIndex);
+
+
+
+//            String UVIndex = currentWeatherJSON.getString("UVIndex");
+//            currentStats.setText(currentWindSpeed + " mph " + currentWindDirection + " / UV Index: " + UVIndex);
 
         }
         catch (JSONException e) {

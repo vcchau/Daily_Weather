@@ -30,17 +30,17 @@
             android:layout_height="match_parent">
 
             <!--<EditText-->
-                <!--android:id="@+id/location_prompt"-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:textSize="30dp"-->
-                <!--android:inputType="textPersonName"-->
-                <!--android:text="Enter a city: "-->
-                <!--android:paddingTop="?android:attr/actionBarSize"-->
-                <!--android:textStyle="bold"-->
-                <!--android:textAlignment="center"-->
+            <!--android:id="@+id/location_prompt"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:textSize="30dp"-->
+            <!--android:inputType="textPersonName"-->
+            <!--android:text="Enter a city: "-->
+            <!--android:paddingTop="?android:attr/actionBarSize"-->
+            <!--android:textStyle="bold"-->
+            <!--android:textAlignment="center"-->
 
-                <!--/>-->
+            <!--/>-->
 
             <TextView
                 android:id="@+id/location"
@@ -104,7 +104,7 @@
                 android:id="@+id/precipChance"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="%/% chance of preciptation"
+                android:hint="% precip / # mph NE"
                 android:textAlignment="center"
                 android:textSize="20dp"
                 app:layout_constraintTop_toBottomOf="@id/humidity"/>
@@ -113,7 +113,7 @@
                 android:id="@+id/currentStats"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="UV index / # mph NE"
+                android:hint=""
                 app:layout_constraintTop_toBottomOf="@id/precipChance"
                 android:textAlignment="center"
                 android:textSize="20dp"/>

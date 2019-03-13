@@ -74,8 +74,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.windDirection.setText(hours.get(i).getWindDirection());
         viewHolder.precipChance.setText(hours.get(i).getChanceOfPrecipitation() + "%");
         viewHolder.humidity.setText(hours.get(i).getRelativeHumidity() + "%");
-        viewHolder.UVIndex.setText(hours.get(i).getUVIndex());
         viewHolder.summary.setText(hours.get(i).getSummary());
+
+//        viewHolder.UVIndex.setText(hours.get(i).getUVIndex());
 
 
         // check for null before setting onClickListener?
@@ -102,8 +103,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView windDirection;
         TextView precipChance;
         TextView humidity;
-        TextView UVIndex;
         TextView summary;
+
+//        TextView UVIndex;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -115,8 +117,9 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             windDirection = itemView.findViewById(R.id.windDirection);
             precipChance = itemView.findViewById(R.id.precipChance);
             humidity = itemView.findViewById(R.id.humidity);
-            UVIndex = itemView.findViewById(R.id.UVIndex);
             summary = itemView.findViewById(R.id.summary);
+
+//            UVIndex = itemView.findViewById(R.id.UVIndex);
         }
     }
 }

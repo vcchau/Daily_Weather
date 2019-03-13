@@ -146,60 +146,6 @@
 
     </LinearLayout>
 
-   <LinearLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content">
-
-       <LinearLayout
-           android:layout_width="0dp"
-           android:layout_weight="1"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal">
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:hint="Winds: "
-               android:textStyle="bold"
-               android:textSize="20sp"
-               android:textColor="@color/colorPrimaryDark"/>
-
-           <TextView
-               android:id="@+id/windSpeed"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:hint="Wind speed"
-               android:textSize="20sp"
-               android:textColor="@color/colorPrimary"/>
-
-       </LinearLayout>
-
-       <LinearLayout
-           android:layout_width="0dp"
-           android:layout_weight="1"
-           android:layout_height="wrap_content"
-           android:orientation="horizontal">
-
-           <TextView
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:hint="Direction: "
-               android:textStyle="bold"
-               android:textSize="20sp"
-               android:textColor="@color/colorPrimaryDark"/>
-
-           <TextView
-               android:id="@+id/windDirection"
-               android:layout_width="wrap_content"
-               android:layout_height="wrap_content"
-               android:hint="direction"
-               android:textSize="20sp"
-               android:textColor="@color/colorPrimary"/>
-
-       </LinearLayout>
-
-   </LinearLayout>
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
@@ -213,21 +159,75 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="UV Index: "
+                android:hint="Winds: "
                 android:textStyle="bold"
                 android:textSize="20sp"
                 android:textColor="@color/colorPrimaryDark"/>
 
             <TextView
-                android:id="@+id/UVIndex"
+                android:id="@+id/windSpeed"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="UV Index"
+                android:hint="Wind speed"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimary"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="Direction: "
+                android:textStyle="bold"
+                android:textSize="20sp"
+                android:textColor="@color/colorPrimaryDark"/>
+
+            <TextView
+                android:id="@+id/windDirection"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:hint="direction"
                 android:textSize="20sp"
                 android:textColor="@color/colorPrimary"/>
 
         </LinearLayout>
 
     </LinearLayout>
+
+    <!--<LinearLayout-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="wrap_content">-->
+
+        <!--<LinearLayout-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_weight="1"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:orientation="horizontal">-->
+
+            <!--<TextView-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="UV Index: "-->
+                <!--android:textStyle="bold"-->
+                <!--android:textSize="20sp"-->
+                <!--android:textColor="@color/colorPrimaryDark"/>-->
+
+            <!--<TextView-->
+                <!--android:id="@+id/UVIndex"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:hint="UV Index"-->
+                <!--android:textSize="20sp"-->
+                <!--android:textColor="@color/colorPrimary"/>-->
+
+        <!--</LinearLayout>-->
+
+    <!--</LinearLayout>-->
 
 </LinearLayout>
