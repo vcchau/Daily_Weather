@@ -482,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
             String currentWindDirection = currentWind.getJSONObject("Direction").getString("English");
 
             // Update the day's precip chances in the day and at night
-            precipChance.setText("Precip: " + dayPrecipChance + "% / " + nightPrecipChance + "%");
+            precipChance.setText("Precip: " + dayPrecipChance + "%/" + nightPrecipChance + "%");
 
             String summaryString = currentWeatherJSON.getString("WeatherText");
             summary.setText(summaryString);
@@ -496,7 +496,7 @@ public class MainActivity extends AppCompatActivity {
             JSONObject temperature = dailyForecasts.getJSONObject("Temperature");
             String dailyMin = temperature.getJSONObject("Minimum").getString("Value");
             String dailyMax = temperature.getJSONObject("Maximum").getString("Value");
-            minMaxTemp.setText(dailyMax + "° / " + dailyMin + "° Realfeel " + realFeelTemp + "°");
+            minMaxTemp.setText(dailyMax + "°/" + dailyMin + "° Realfeel " + realFeelTemp + "°");
 
             // Update humidity
             String humidityPercentage = currentWeatherJSON.getString("RelativeHumidity");
