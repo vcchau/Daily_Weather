@@ -70,20 +70,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         viewHolder.dateTextView.setText(hours.get(i).getTimeStamp());
         viewHolder.currentTemp.setText(hours.get(i).getCurrentTemp() + "°F");
         viewHolder.realFeel.setText(hours.get(i).getCurrentRealFeelTemp() + "°F");
-        viewHolder.windSpeeds.setText(hours.get(i).getWindSpeed() + " mph");
+        viewHolder.windSpeeds.setText(hours.get(i).getWindDirection() + " " + hours.get(i).getWindSpeed() + " mph");
         viewHolder.precipChance.setText(hours.get(i).getChanceOfPrecipitation() + "%");
         viewHolder.humidity.setText(hours.get(i).getRelativeHumidity() + "%");
         viewHolder.summary.setText(hours.get(i).getSummary());
         viewHolder.UVIndex.setText(hours.get(i).getUVIndex());
-//        viewHolder.windDirection.setText(hours.get(i).getWindDirection());
-
-        // check for null before setting onClickListener?
-//        viewHolder.parentLayout.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Toast.makeText(context, hours.get(i).getDate(), Toast.LENGTH_SHORT).show();
-//            }
-//        });
     }
 
     @Override
@@ -103,7 +94,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
         TextView summary;
         TextView UVIndex;
 
-//        TextView windDirection;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -116,8 +106,6 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             humidity = itemView.findViewById(R.id.humidity);
             summary = itemView.findViewById(R.id.summary);
             UVIndex = itemView.findViewById(R.id.UVIndex);
-
-//            windDirection = itemView.findViewById(R.id.windDirection);
         }
     }
 }

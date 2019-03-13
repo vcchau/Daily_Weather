@@ -470,12 +470,6 @@ public class MainActivity extends AppCompatActivity {
             String currentDate = getDate(dailyForecasts.getString("Date"));
             date.setText(currentDate);
 
-            // Update the min/max temps for the day
-            JSONObject temperature = dailyForecasts.getJSONObject("Temperature");
-            String dailyMin = temperature.getJSONObject("Minimum").getString("Value");
-            String dailyMax = temperature.getJSONObject("Maximum").getString("Value");
-            minMaxTemp.setText(dailyMax + "°F / " + dailyMin + "°F");
-
             // Update the precip chances for day and night
             JSONObject dayObject = dailyForecasts.getJSONObject("Day");
             String dayPrecipChance = dayObject.getString("PrecipitationProbability");
@@ -488,7 +482,7 @@ public class MainActivity extends AppCompatActivity {
             String currentWindDirection = currentWind.getJSONObject("Direction").getString("English");
 
             // Update the day's precip chances in the day and at night
-            precipChance.setText("Precip: " + dayPrecipChance + "% / " + nightPrecipChance + "% / " + currentWindSpeed + " mph " + currentWindDirection);
+            precipChance.setText("Precip: " + dayPrecipChance + "% / " + nightPrecipChance + "%");
 
             String summaryString = currentWeatherJSON.getString("WeatherText");
             summary.setText(summaryString);
@@ -497,10 +491,16 @@ public class MainActivity extends AppCompatActivity {
             String currentTemperature = currentWeatherJSON.getJSONObject("Temperature").getJSONObject("Imperial").getString("Value");
             currentTemp.setText(currentTemperature + "°F");
 
-            // Update Realfeel and humidity
+            // Update the min/max temps and realfeel for the day
             String realFeelTemp = currentWeatherJSON.getJSONObject("RealFeelTemperature").getJSONObject("Imperial").getString("Value");
+            JSONObject temperature = dailyForecasts.getJSONObject("Temperature");
+            String dailyMin = temperature.getJSONObject("Minimum").getString("Value");
+            String dailyMax = temperature.getJSONObject("Maximum").getString("Value");
+            minMaxTemp.setText(dailyMax + "° / " + dailyMin + "° Realfeel " + realFeelTemp + "°");
+
+            // Update humidity
             String humidityPercentage = currentWeatherJSON.getString("RelativeHumidity");
-            humidity.setText("Realfeel " + realFeelTemp + "°F / Humidity " + humidityPercentage + "%");
+            humidity.setText(currentWindDirection + currentWindSpeed + " mph / Humidity " + humidityPercentage + "%");
         }
         catch (JSONException e) {
             e.printStackTrace();
